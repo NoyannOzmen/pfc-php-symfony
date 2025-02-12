@@ -10,9 +10,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FosterController extends AbstractController
 {
+
     #[Route('/famille/profil', name: 'foster_profile', methods: ['GET'])]
-    public function show(EntityManagerInterface $entityManager, int $id=1): Response
+    public function show(EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+  
+        /** @var \App\Entity\Utilisateur $user */
+        $user = $this->getUser();
+        /** @var \App\Entity\Utilisateur $user */
+        $accueillant = $user->getAccueillant();
+        $id = $accueillant->getId();
+
         $famille = $entityManager->getRepository(Famille::class)->find($id);
 
         if (!$famille) {
@@ -25,8 +34,16 @@ class FosterController extends AbstractController
     }
 
     #[Route('/famille/profil/demandes', name: 'foster_profile_requests', methods: ['GET'])]
-    public function displayRequests(EntityManagerInterface $entityManager, int $id=1): Response
+    public function displayRequests(EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+  
+        /** @var \App\Entity\Utilisateur $user */
+        $user = $this->getUser();
+        /** @var \App\Entity\Utilisateur $user */
+        $accueillant = $user->getAccueillant();
+        $id = $accueillant->getId();
+
         $famille = $entityManager->getRepository(Famille::class)->find($id);
 
         $requests = $entityManager->getRepository(Demande::class)->findBy(['famille' => $id]);
