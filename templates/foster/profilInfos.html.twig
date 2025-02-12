@@ -18,11 +18,11 @@
       <section class="flex flex-wrap justify-center" id="dashboard-container">
         <h3 class="font-grands text-3xl text-center my-2 pt-5 w-full">Mon profil</h3>
 
-        {# {% if(locals.message.length != 0) %}
-          <div>
-            <p class="font-grands font-base text-accents1 text-center">{{ message.erreur }}></p>
+         {% for message in app.flashes('notice') %}
+          <div class="flash-notice font-grands font-base text-accents1 text-center">
+          {{ message }}
           </div>
-        {% endif %} #}
+        {% endfor %}
 
         <form class="flex flex-col flex-wrap content-center justify-around text-texte w-full" action="/famille/profil" method="POST">
           

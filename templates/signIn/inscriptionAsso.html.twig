@@ -11,13 +11,13 @@
       <fieldset class="font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
         <legend class="font-bold text-lg font-grands text-center">Votre organisme</legend>
 
-      {# {% if(locals.message.length != 0) %}
-        <div>
-          <p class="font-grands font-base text-accents1 text-center">{{ message.erreur }}</p>
+      {% for message in app.flashes('notice') %}
+        <div class="flash-notice font-grands font-base text-accents1 text-center">
+          {{ message }}
         </div>
-      {% endif %} #}
+      {% endfor %}
         
-       {#  <!-- Nom #}
+       {# Nom #}
         <div class="mx-auto p-2">  
           <label class="text-center w-full" for="nom">Nom</label>
           <input class="block bg-fond w-full" type="text" id="nom" name="nom" placeholder="PetSmart" required>
@@ -37,7 +37,7 @@
           </div>
         </div>
         
-       {#  <!-- Adresse #}
+       {# Adresse #}
         <div class="mx-auto p-2"> 
           <label class="text-center w-full" for="rue">Rue</label>
           <input class="block bg-fond w-full" type="text" id="rue" name="rue" placeholder="45, rue de la Boustifaille" required>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="mx-auto p-2"> 
-         {#  <!-- telephone #}
+         {# telephone #}
           <label class="text-center w-full" for="telephone">N° telephone</label>
           <input class="block bg-fond w-full" type="tel" id="telephone" name="telephone" pattern="^(0|\+33 )[1-9]([-. ]?[0-9]{2} ){3}([-. ]?[0-9]{2})|([0-9]{8})$" placeholder="01 23 45 67 89">
         </div>
@@ -94,8 +94,8 @@
       <fieldset class="font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
         <legend class="font-bold text-lg font-grands text-center">Mot de passe</legend>
         <div class="mx-auto p-2">
-          <label class="text-center w-full" for="mot_de_passe">Créez votre mot de passe</label>
-          <input class="block bg-fond w-full" type="password" id="mot_de_passe" name="mot_de_passe" placeholder="*********" autocomplete="new-password" required>
+          <label class="text-center w-full" for="password">Créez votre mot de passe</label>
+          <input class="block bg-fond w-full" type="password" id="password" name="password" placeholder="*********" autocomplete="new-password" required>
         </div>
         <div class="mx-auto p-2">
           <label class="text-center w-full" for="confirmation">Confirmez votre mot de passe</label>

@@ -19,36 +19,35 @@
 
         <nav class="rounded-br-lg md:rounded-b-lg flex-auto  bg-accents2-dark text-fond p-3 text-base md:text-lg md:mr-4">
           <ul class="flex flex-col md:flex-row flex-nowrap justify-around">
-           {#  Login Navigation #}
-{#            {% if locals.loggedIn %}
+            {#  Login Navigation #}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
               <li class="border-2 border-accents2-dark max-[767px]:border-b-fond md:mr-4 md:border-r-fond px-4 max-[767px]:pb-2 place-self-center md:place-self-start pl-2">
-                {% if (locals.role==='association' %}
-                  <a href="/association/profil">Bonjour : {{ locals.nom }}</a>
+                {% if is_granted('ROLE_SHELTER') %}
+                  <a href="/association/profil">Bonjour : {{ app.user.refuge.nom }}</a>
                 {% endif %}
 
-                {% if locals.role==='famille' %}
-                  {% if (!locals.prenom) %}
-                    <a href="/famille/profil"> Bonjour : {{ locals.nom }}</a>
+                {% if is_granted('ROLE_FOSTER') %}
+                  {% if (app.user.accueillant.prenom) %}
+                    <a href="/famille/profil"> Bonjour : {{ app.user.accueillant.prenom }}</a>
                   {% else %}
-                    <a href="/famille/profil">Bonjour : {{ locals.prenom }}</a>
+                    <a href="/famille/profil">Bonjour : {{ app.user.accueillant.nom }}</a>
                   {% endif %}
                 {% endif %}
               </li>
-              {% if (locals.role==='association') %}
+              {% if is_granted('ROLE_SHELTER') %}
                 <li class="border-2 border-accents2-dark mr-0 max-[767px]:border-b-fond  md:border-r-fond px-4 pr-6 max-[767px]:pb-2 place-self-center md:place-self-start">
                   <a tabindex=0 class="hover:text-accents1-light" href="/association/profil/animaux">Tableau de&nbsp;bord</a>
                 </li>
               {% endif %}
-                {% if (locals.role==='famille') %}
-                  <li class="border-2 border-accents2-dark mr-0 max-[767px]:border-b-fond  md:border-r-fond px-4 pr-6 max-[767px]:pb-2 place-self-center md:place-self-start">
-                    <a tabindex=0 class="hover:text-accents1-light" href="/famille/profil">Tableau de&nbsp;bord</a>
-                  </li>
-                {% endif %}
+              {% if is_granted('ROLE_FOSTER') %}
+                <li class="border-2 border-accents2-dark mr-0 max-[767px]:border-b-fond  md:border-r-fond px-4 pr-6 max-[767px]:pb-2 place-self-center md:place-self-start">
+                  <a tabindex=0 class="hover:text-accents1-light" href="/famille/profil">Tableau de&nbsp;bord</a>
+                </li>
+              {% endif %}
               <li id="log-out" class="border-2 border-accents2-dark place-self-center md:place-self-start pl-2">
                 <a href="/deconnexion" class="hover:text-accents1-light">Se Déconnecter</a>
               </li>
-            {% endif %}   #}      
-            {# {% if (!locals.loggedIn) %} #}
+            {% else %}      
               <li id="log-in" class="border-2 border-accents2-dark max-[767px]:border-b-fond md:mr-4 md:border-r-fond px-4 max-[767px]:pb-2 place-self-center md:place-self-start pl-2">
                 <a href="/connexion" class="hover:text-accents1-light">Se Connecter</a>
               </li>
@@ -66,7 +65,7 @@
                   <a href="/association/inscription" class="hover:text-accents1-light">Association</a>
                 </li>
               </div>
-            {# {% endif %} #}
+            {% endif %}
           </ul>           
         </nav>
                   
