@@ -20,7 +20,8 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress",
-        "db:reset": "psql -U php_pfcadmin -d php_pfc -f ./src/database/1_create_tables.sql; psql -U php_pfcadmin -d php_pfc -f ./src/database/2_seeding_tables.sql"
+        "db:reset": "psql -U php_pfcadmin -d php_pfc -f ./src/database/1_create_tables.sql; psql -U php_pfcadmin -d php_pfc -f ./src/database/2_seeding_tables.sql",
+        "db:drop": "psql -U php_pfcadmin -d php_pfc -f ./src/database/3_drop.sql"
     },
     "dependencies": {
         "@tailwindcss/postcss": "^4.0.6",

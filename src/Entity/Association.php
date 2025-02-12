@@ -60,7 +60,7 @@ class Association
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Utilisateur $refuge = null;
+    private ?Utilisateur $utilisateur = null;
 
     public function __construct()
     {
@@ -253,14 +253,14 @@ class Association
         return $this;
     }
 
-    public function getRefuge(): ?Utilisateur
+    public function getUtilisateur(): ?Utilisateur
     {
-        return $this->refuge;
+        return $this->utilisateur;
     }
 
-    public function setRefuge(Utilisateur $refuge): static
+    public function setUtilisateur(Utilisateur $utilisateur): static
     {
-        $this->refuge = $refuge;
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

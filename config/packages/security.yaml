@@ -43,8 +43,8 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: '^/association/', roles: ROLE_SHELTER }
-        - { path: '^/famille', roles: ROLE_FOSTER }
+        - { path: '^/association/profil', roles: ROLE_SHELTER }
+        - { path: '^/famille/profil', roles: ROLE_FOSTER }
 
 when@test:
     security:
