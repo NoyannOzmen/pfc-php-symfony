@@ -58,9 +58,13 @@ class Association
     #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'association', orphanRemoval: true)]
     private Collection $pensionnaires;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    /* #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Utilisateur $utilisateur = null;
+    private ?Utilisateur $utilisateur = null; */
+
+    #[ORM\OneToOne(targetEntity: Utilisateur::class, inversedBy: 'refuge')]
+    #[ORM\JoinColumn(name: 'utilisateur_id', referencedColumnName: 'id')]
+    private Utilisateur|null $utilisateur_id = null;
 
     public function __construct()
     {
@@ -255,12 +259,12 @@ class Association
 
     public function getUtilisateur(): ?Utilisateur
     {
-        return $this->utilisateur;
+        return $this->utilisateur_id;
     }
 
-    public function setUtilisateur(Utilisateur $utilisateur): static
+    public function setUtilisateur(Utilisateur $utilisateur_id): static
     {
-        $this->utilisateur = $utilisateur;
+        $this->utilisateur_id = $utilisateur_id;
 
         return $this;
     }

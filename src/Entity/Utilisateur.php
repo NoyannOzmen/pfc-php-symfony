@@ -26,11 +26,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::TEXT)]
     private ?string $password = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    /* #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Association $refuge = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Famille $accueillant = null;
+    private ?Famille $accueillant = null; */
+
+    #[ORM\OneToOne(targetEntity: Association::class, mappedBy: 'utilisateur_id')]
+    private Association|null $refuge = null;
+
+    #[ORM\OneToOne(targetEntity: Famille::class, mappedBy: 'utilisateur_id')]
+    private Famille|null $accueillant = null;
 
     public function getId(): ?int
     {
