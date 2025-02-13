@@ -18,11 +18,11 @@
       <section class="flex flex-wrap justify-center" id="dashboard-container">
         <h3 class="font-grands text-3xl text-center my-2 pt-5 w-full">Mon profil</h3>
 
-        {# {% if(locals.message.length != 0) %}
-          <div>
-            <p class="font-grands font-base text-accents1 text-center">{{ message.erreur }}></p>
+         {% for message in app.flashes('notice') %}
+          <div class="flash-notice font-grands font-base text-accents1 text-center">
+          {{ message }}
           </div>
-        {% endif %} #}
+        {% endfor %}
 
         <form class="flex flex-col flex-wrap content-center justify-around text-texte w-full" action="/famille/profil" method="POST">
           
@@ -31,16 +31,16 @@
 
             <div class="mx-auto p-2"> 
               <label class="text-center w-full" for="prenom">Prénom</label>
-              <input class="block w-full bg-fond" type="text" id="prenom" name="prenom" value="{{ famille.prenom }}" disabled>
+              <input class="block w-full" type="text" id="prenom" name="prenom" value="{{ famille.prenom }}" disabled>
             </div>
             <div class="mx-auto p-2">
               <label class="text-center w-full" for="nom">Nom</label>
-              <input class="block w-full bg-fond" type="text" id="nom" name="nom" value="{{ famille.nom }}" disabled>
+              <input class="block w-full" type="text" id="nom" name="nom" value="{{ famille.nom }}" disabled>
             </div>
-            <div class="mx-auto p-2">
+{#             <div class="mx-auto p-2">
               <label class="text-center w-full" for="email">Email</label>
-              <input class="block w-full bg-fond" type="email" id="email" name="email" value="{{ famille.accueillant.email }}" disabled>
-            </div>
+              <input class="block w-full" type="email" id="email" name="email" value="{{ famille.accueillant.email }}" disabled>
+            </div> #}
           </fieldset>
       
           <fieldset class="font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
@@ -48,33 +48,33 @@
 
               <div class="mx-auto p-2">
                 <label class="text-center w-full" for="hebergement">Type</label>
-                <input class="block w-full bg-fond" type="text" id="hebergement" name="hebergement" value="{{ famille.hebergement }}" disabled>
+                <input class="block w-full" type="text" id="hebergement" name="hebergement" value="{{ famille.hebergement }}" disabled>
               </div>
 
               <div class="mx-auto p-2">
                 <label class="text-center w-full" for="terrain">Terrain</label>
-                <input class="block w-full bg-fond" type="text" id="terrain" name="terrain" value="{{ famille.terrain }}" disabled>
+                <input class="block w-full" type="text" id="terrain" name="terrain" value="{{ famille.terrain }}" disabled>
               </div>
 
               <div class="mx-auto p-2">
                 <label class="text-center w-full" for="rue">Rue</label>
-                <input class="block w-full bg-fond" type="text" id="rue" name="rue" value="{{ famille.rue }}" disabled>
+                <input class="block w-full" type="text" id="rue" name="rue" value="{{ famille.rue }}" disabled>
               </div>
 
               <div class="mx-auto p-2">       
                 <label class="text-center w-full" for="commune">Commune</label>
-                <input class="block w-full bg-fond" type="text" id="commune" name="commune" value="{{ famille.commune }}" disabled>
+                <input class="block w-full" type="text" id="commune" name="commune" value="{{ famille.commune }}" disabled>
               </div>
 
               <div class="mx-auto p-2">
                 <label class="text-center w-full" for="code_postal">Code Postal</label>
-                <input class="block w-full bg-fond" type="text" id="code_postal" name="code_postal" pattern="^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$" value="{{ famille.code_postal }}" disabled>
+                <input class="block w-full" type="text" id="code_postal" name="code_postal" pattern="^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$" value="{{ famille.code_postal }}" disabled>
               </div>
           </fieldset>
 
           <button id="validate" class="hidden w-[60%] mx-auto my-3 py-2 px-4 bg-accents1-light text-fond transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" type="submit">Valider les modifications</button>
         </form>
-        <form class="flex flex-col flex-wrap content-center justify-around text-texte" action="/famille/profil/delete" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer votre profil ? Cette action est irréversible !')">
+        <form class="flex flex-col flex-wrap content-center justify-around text-texte" action="{{ path('foster_delete_account') }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer votre profil ? Cette action est irréversible !')">
           <button id="deleteAccount" class="w-[60%] mx-auto my-3 py-2 px-4 bg-accents2-dark text-fond transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" type="submit">Supprimer mon profil</button>
           <p class="text-center w-full">ATTENTION ! Cette suppression est définitive !</p>
         </form>

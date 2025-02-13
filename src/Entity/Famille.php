@@ -55,9 +55,13 @@ class Famille
     #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'demandes', orphanRemoval: true)]
     private Collection $demandes;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    /* #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Utilisateur $accueillant = null;
+    private ?Utilisateur $accueillant = null; */
+
+    #[ORM\OneToOne(targetEntity: Utilisateur::class, inversedBy: 'accueillant')]
+    #[ORM\JoinColumn(name: 'utilisateur_id', referencedColumnName: 'id')]
+    private Utilisateur|null $utilisateur_id = null;
 
     public function __construct()
     {
@@ -238,14 +242,14 @@ class Famille
         return $this;
     }
 
-    public function getAccueillant(): ?Utilisateur
+    public function getUtilisateur(): ?Utilisateur
     {
-        return $this->accueillant;
+        return $this->utilisateur_id;
     }
 
-    public function setAccueillant(Utilisateur $accueillant): static
+    public function setUtilisateur(Utilisateur $utilisateur_id): static
     {
-        $this->accueillant = $accueillant;
+        $this->utilisateur_id = $utilisateur_id;
 
         return $this;
     }

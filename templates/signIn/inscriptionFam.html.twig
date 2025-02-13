@@ -8,11 +8,11 @@
 
     <form class="flex flex-col flex-wrap content-center justify-around text-texte" action="/famille/inscription" method="POST">
       
-      {# {% if(locals.message.length != 0) %}
-        <div>
-          <p class="font-grands font-base text-accents1 text-center">{{ message.erreur }}</p>
+      {% for message in app.flashes('notice') %}
+        <div class="flash-notice font-grands font-base text-accents1 text-center">
+          {{ message }}
         </div>
-      {% endif %} #}
+      {% endfor %}
 
       <fieldset class="font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
         <legend class="font-bold text-lg font-grands text-center">Vos informations</legend>
@@ -52,17 +52,13 @@
           <label class="text-center w-full" for="hebergement">Type d'hébergement</label>
           <input class="block bg-fond w-full" type="text" id="hebergement" name="hebergement" placeholder="Maison" required>
         </div>
-        {# Adresse #}
+        {# Terrain #}
         <div class="mx-auto p-2">
-          
-          {# Terrain #}
           <label class="text-center w-full" for="terrain">Type de terrain</label>
           <input class="block bg-fond w-full" type="text" id="terrain" name="terrain" placeholder="Jardin de 100m²">
         </div>
+        {# Adresse #}
         <div class="mx-auto p-2">
-          
-          {# Adresse #}
-          
           <label class="text-center w-full" for="rue">Rue</label>
           <input class="block bg-fond w-full" type="text" id="rue" name="rue" placeholder="45, rue de la Boustifaille" required>
         </div>
@@ -86,8 +82,8 @@
       <fieldset class="font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
         <legend class="font-bold text-lg font-grands text-center">Mot de passe</legend>
         <div class="mx-auto p-2">
-          <label class="text-center w-full" for="mot_de_passe">Créez votre mot de passe</label>
-          <input class="block bg-fond w-full" type="password" id="mot_de_passe" name="mot_de_passe" placeholder="*********" autocomplete="new-password" required>
+          <label class="text-center w-full" for="password">Créez votre mot de passe</label>
+          <input class="block bg-fond w-full" type="password" id="password" name="password" placeholder="*********" autocomplete="new-password" required>
         </div>
         <div class="mx-auto p-2">
           <label class="text-center w-full" for="confirmation">Confirmez votre mot de passe</label>

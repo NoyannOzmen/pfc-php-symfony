@@ -9,6 +9,7 @@
 /public/bundles/
 /var/
 /vendor/
+/src/database
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###

@@ -39,31 +39,32 @@
                   <td colspan="3" scope="colgroup">Nombre de demandes</td>
                 </tr>
                 {% for animal in requestedAnimals %}
-                  <tr tabindex="0"class="view text-fond text-sm bg-accents2 font-grands font-semibold p-3 border-accents2-dark border-solid border-1 hover:bg-accents2-dark">
-                    <td colspan="3" scope="colgroup" class="px-2 pt-2  border-accents2-dark border-solid border-1">{{ animal.nom }}</td>
-                    <td colspan="3" scope="colgroup" class="px-2 pt-2  border-accents2-dark border-solid border-1">Nombre</td>
-                  </tr>
-                  <tr class="fold mb-3 bg-fond rounded-b-lg hidden">
-                    <tr class="fold text-fond text-sm bg-accents2-light font-grands font-semibold p-3 border-accents2-dark border-solid border-1 hidden">
-                      <td colspan="2" class="px-2 pt-2  border-accents2-light border-solid border-1">Famille</td>
-                      <td colspan="2" class="px-2 pt-2  border-accents2-light border-solid border-1">Date de demande</td>
-                      <td colspan="2" class="px-2 pt-2  border-accents2-light border-solid border-1">Statut</td>
+                  {% if animal.demandes %}
+                    <tr tabindex="0"class="view text-fond text-sm bg-accents2 font-grands font-semibold p-3 border-accents2-dark border-solid border-1 hover:bg-accents2-dark">
+                      <td colspan="3" scope="colgroup" class="px-2 pt-2  border-accents2-dark border-solid border-1">{{ animal.nom }}</td>
+                      <td colspan="3" scope="colgroup" class="px-2 pt-2  border-accents2-dark border-solid border-1">Nombre</td>
                     </tr>
-                    {# {% for demande in animal.demandes %}
-                      {% if (loop.index % 2 > 0) %}
-                        <tr class="fold text-sm font-semibold font-body hidden text-fond bg-accents2-light">                          
-                      {% else %}
-                        <tr class="fold text-sm font-body font-semibold hidden bg bg-fond">                          
-                      {% endif %}
-                          
-                          <td colspan="2">{{ demande.nom }}</td>
-                          <td colspan="2">{{ demande.Demande.date_debut }}</td>
-                          <td colspan="2"><a tabindex="0" class="hover:underline"
-                          href="{{ path('request_details', {'id': demande.Demande.id }) }}" 
-                          href='/association/profil/demandes/{{ demande.Demande.id }}'>{{ demande.Demande.statut_demande }}</a></td>
-                        </tr>
-                    {% endfor %} #}
-                  </tr>
+                    <tr class="fold mb-3 bg-fond rounded-b-lg hidden">
+                      <tr class="fold text-fond text-sm bg-accents2-light font-grands font-semibold p-3 border-accents2-dark border-solid border-1 hidden">
+                        <td colspan="2" class="px-2 pt-2  border-accents2-light border-solid border-1">Famille</td>
+                        <td colspan="2" class="px-2 pt-2  border-accents2-light border-solid border-1">Date de demande</td>
+                        <td colspan="2" class="px-2 pt-2  border-accents2-light border-solid border-1">Statut</td>
+                      </tr>
+{#                       {% for demande in animal.demandes %}
+                        {% if (loop.index % 2 > 0) %}
+                          <tr class="fold text-sm font-semibold font-body hidden text-fond bg-accents2-light">                          
+                        {% else %}
+                          <tr class="fold text-sm font-body font-semibold hidden bg bg-fond">                          
+                        {% endif %}
+                            
+                            <td colspan="2">{{ demande.potentiel_accueillant.nom }}</td>
+                            <td colspan="2">{{ demande.date_debut }}</td>
+                            <td colspan="2"><a tabindex="0" class="hover:underline"
+                            href="{{ path('shelter_request_details', {'requestId': demande.id }) }}">{{ demande.statut_demande }}</a></td>
+                          </tr>
+                      {% endfor %} #}
+                    </tr>
+                  {% endif %}
                 {% endfor %}
               </table>
               {% endif %}
