@@ -61,7 +61,7 @@
                           {% else %}
                             <img class="w-28 rounded-lg" src="/images/animal_empty.webp" alt="Photo à venir">
                           {% endif %}
-                          <a class="rounded-full block bg-accents1 text-fond w-16 text-center text-xs font-semibold py-1 hover:underline" href="{{ path('shelter_fostered_animals', {'id': animal.id }) }}">Détails</a>
+                          <a class="rounded-full block bg-accents1 text-fond w-16 text-center text-xs font-semibold py-1 hover:underline" href="{{ path('shelter_animal_details', {'animalId': animal.id }) }}">Détails</a>
                         </div>
                         
                         <div class="pl-4">

@@ -140,7 +140,7 @@
               <h3 class="font-body font-bold mb-4">Historique des demandes d'accueil</h3>
               
               <table class="mb-3 rounded-b-lg rounded-lg border-separate "> 
-                <thead class=" text-fond text-sm bg-accents2 font-grands font-semibold p-3 border-accents2-dark border-solid border-1">
+                <thead class=" text-fond text-sm  bg-accents2-dark font-grands font-semibold p-3 border-accents2-dark border-solid border-1">
                   <th class="px-2 pt-2  border-accents2-light border-solid border-1 text-center">Famille</th>
                   <th class="px-2 pt-2  border-accents2-light border-solid border-1 text-center">Date de demande</th>
                   <th class="px-2 pt-2  border-accents2-light border-solid border-1 text-center">Statut</th>
@@ -148,7 +148,7 @@
                 <tbody class="rounded-lg border-separate ">
                   {% for demande in demandes %}
                     <tr class="odd:bg-accents2-light even:bg-fond odd:text-fond text-sm font-body font-semibold p-4 rounded-lg ">
-                      {# <td class="text-center p-2 rounded-lg ">{{ demande.famille.nom }}</td> #}
+                      <td class="text-center p-2 rounded-lg ">{{ demande.potentiel_accueillant.nom }}</td>
                       <td class="text-center p-2 rounded-lg ">{{ demande.date_debut }}</td>
                       <td class="text-center p-2 rounded-lg hover:underline"><a href="{{ path('shelter_request_details', {'requestId': demande.id }) }}">{{ demande.statut_demande }}</a></td>
                     </tr>

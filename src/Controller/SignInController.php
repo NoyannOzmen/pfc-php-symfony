@@ -52,13 +52,13 @@ class SignInController extends AbstractController
   }
 
   #[Route('/famille/inscription', name: 'foster_signup', methods: ['GET'])]
-  public function displayFosterSignUp(): Response
+  public function newFoster(): Response
   {
       return $this->render('signIn/inscriptionFam.html.twig');
   }
 
   #[Route('/association/inscription', name: 'shelter_signup', methods: ['GET'])]
-  public function displayShelterSignUp(): Response
+  public function newShelter(): Response
   {
       return $this->render('signIn/inscriptionAsso.html.twig');
   }

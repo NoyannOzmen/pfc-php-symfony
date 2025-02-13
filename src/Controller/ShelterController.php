@@ -7,6 +7,7 @@ use App\Entity\Animal;
 use App\Entity\Tag;
 use App\Entity\AnimalTag;
 use App\Entity\Demande;
+use App\Entity\Famille;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -167,7 +168,10 @@ class ShelterController extends AbstractController
         $id = $refuge->getId();
 
         $association = $entityManager->getRepository(Association::class)->find($id);
-        $requestedAnimals = $entityManager->getRepository(Animal::class)->findBy(['association' => $id]);
+        $requestedAnimals = $association->getPensionnaires()->filter(
+            function(Animal $animals) {
+                return $animals->getStatut() === "En refuge";
+            });
 
         if (!$association | !$requestedAnimals) {
             throw $this->createNotFoundException(
@@ -194,6 +198,8 @@ class ShelterController extends AbstractController
         $animalId = $request->getAnimal_accueillable();
         $animal = $entityManager->getRepository(Animal::class)->find(['id' => $animalId]);
         $tags = $entityManager->getRepository(AnimalTag::class)->findBy(['animal' => $animalId]);
+        $fosterId = $request->getPotentiel_accueillant();
+        $famille = $entityManager->getRepository(Famille::class)->find(['id' => $fosterId]);
 
         if (!$association | !$request | !$animal) {
             throw $this->createNotFoundException(
@@ -201,6 +207,26 @@ class ShelterController extends AbstractController
             );
         }
         
-        return $this->render('shelter/dashDemandeSuivi.html.twig', ['association' => $association, 'request' => $request, 'animal' => $animal, 'tags' => $tags]);
+        return $this->render('shelter/dashDemandeSuivi.html.twig', ['association' => $association, 'request' => $request, 'animal' => $animal, 'tags' => $tags, 'famille' => $famille]);
+    }
+
+    #[Route('/association/profil/delete', name: 'shelter_delete_account', methods: ['GET'])]
+    public function deleteAccount(EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+  
+        /** @var \App\Entity\Utilisateur $user */
+        $user = $this->getUser();
+        /** @var \App\Entity\Utilisateur $user */
+        $refuge = $user->getRefuge();
+        $id = $refuge->getId();
+
+        $shelter = $entityManager->getRepository(Association::class)->find($id);
+
+        $entityManager->remove($shelter);
+        $entityManager->remove($user);
+        $entityManager->flush();
+        
+        return $this->render('/');
     }
 }

@@ -57,4 +57,23 @@ class FosterController extends AbstractController
         return $this->render('foster/profilDemande.html.twig', ['famille' => $famille, 'requests' => $requests]);
     }
 
+    #[Route('/famille/profil/delete', name: 'foster_delete_account', methods: ['GET'])]
+    public function deleteAccount(EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+  
+        /** @var \App\Entity\Utilisateur $user */
+        $user = $this->getUser();
+        /** @var \App\Entity\Utilisateur $user */
+        $accueillant = $user->getAccueillant();
+        $id = $accueillant->getId();
+
+        $famille = $entityManager->getRepository(Famille::class)->find($id);
+
+        $entityManager->remove($famille);
+        $entityManager->remove($user);
+        $entityManager->flush();
+        
+        return $this->render('/');
+    }
 }
