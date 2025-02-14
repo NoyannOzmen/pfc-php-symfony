@@ -8,9 +8,10 @@ Ce dépôt contient une conversion en PHP 8 du projet PetFosterConnect, tout en 
 
 ### Ce qu'il reste à implémenter (WIP)
 
-- Création d'un nouvel utilisateur / d'un nouvel animal (pour les associations connectées)
+- Création d'un nouvel animal (pour les associations connectées)
 - Upload d'images (logo pour association, photo pour animaux)
 - Fonction de recherche d'associations / d'animaux et filtrage des résultats
+- Effectuer / Administrer les demandes d'accueil
 
 ## Présentation
 

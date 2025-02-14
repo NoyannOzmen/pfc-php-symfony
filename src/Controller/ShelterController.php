@@ -283,6 +283,6 @@ class ShelterController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
         
-        return $this->render('/staticPages/accueil.html/twig');
+        return $this->redirectToRoute('accueil');
     }
 }

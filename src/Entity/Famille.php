@@ -52,7 +52,7 @@ class Famille
     /**
      * @var Collection<int, Demande>
      */
-    #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'demandes', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'demandes')]
     private Collection $demandes;
 
     /* #[ORM\OneToOne(cascade: ['persist', 'remove'])]

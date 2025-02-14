@@ -113,16 +113,19 @@ class FosterController extends AbstractController
         $id = $accueillant->getId();
 
         $famille = $entityManager->getRepository(Famille::class)->find($id);
-        
+
 /*         $requests = $entityManager->getRepository(Demande::class)->findBy(['famille' => $id]);
         if (!$requests) {
             $requests = [];
+        }
+        foreach ($requests as $request) {
+          $famille->removeDemande($request);
         } */
 
         $entityManager->remove($famille);
         $entityManager->remove($user);
         $entityManager->flush();
         
-        return $this->render('staticPages/accueil.html.twig');
+        return $this->redirectToRoute('accueil');
     }
 }
