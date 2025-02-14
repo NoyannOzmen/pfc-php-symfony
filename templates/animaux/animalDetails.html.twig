@@ -6,11 +6,11 @@
 		<h2 class="font-grands text-2xl md:text-3xl text-center w-full my-6">{{ animal.nom }}</h2>
 
 		<div class="font-body mx-auto w-[80%] bg-zoning rounded-lg shadow dark:bg-gray-800 my-4">
-					{% if animal.images_animal %}
-            <img class="mx-auto my-2"
-            src={{ animal.images_animal[0].url}} alt="Photo de" . {{ animal.nom }}>
+					{% if animal.images_animal is empty %}
+						<img class="mx-auto my-2" src="/images/animal_empty.webp" alt="Photo à venir">
 					{% else %}
-					<img class="mx-auto my-2" src="/images/animal_empty.webp" alt="Photo à venir">
+					  <img class="mx-auto my-2"
+            src={{ animal.images_animal[0].url}} alt="Photo de" . {{ animal.nom }}>
 					{% endif %}
 		</div>
 
@@ -60,7 +60,7 @@
           {{ message }}
           </div>
         {% endfor %}
-					<form action="/animaux/{{ animal.id }}/faire-une-demande" method="POST">
+					<form method="POST">
 						<button type="submit" class="mx-auto my-3 py-2 px-6 bg-accents1-light text-fond transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg">Faire une demande</button>
 					</form>
 			</div>
@@ -113,10 +113,10 @@
 					<div class="hidden carousel-img">
 						<div class="flex bg-fond rounded-lg shadow dark:bg-gray-800 flex-col md:flex-col mx-auto my-2 w-[75%] p-4">
 							<div class="w-full md:w-full flex justify-center items-center">
-								{% if animal.images_animal %}
-								<img class="object-contain md:h-full rounded-lg" src="{{ animal.images_animal[0].url}}" alt="Photo de" . {{ animal.nom}}>
-								{% else %}
+								{% if animal.images_animal is empty %}
 									<img class="object-contain md:h-full rounded-lg" src="/images/animal_empty.webp" alt="Photo à venir">
+								{% else %}	
+									<img class="object-contain md:h-full rounded-lg" src="{{ animal.images_animal[0].url}}" alt="Photo de" . {{ animal.nom}}>
 								{% endif %}
 								</div>
 								<div class="flex-auto text-center">
@@ -135,7 +135,7 @@
 									</div>
 									<div class="flex mb-4 text-sm font-medium">
 										<a class="py-2 px-4 bg-accents1-light text-fond w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
-										href="{{ path('animal_details', {'id': animal.id }) }}">Découvrir</a>
+										href="{{ path('animal_details', {'animalId': animal.id }) }}">Découvrir</a>
 									</div>
 								</div>
 							</div>
@@ -162,11 +162,12 @@
 					<div class="hidden carousel3-img place-self-center">
 						<div class="flex bg-zoning rounded-lg shadow dark:bg-gray-800 flex-row md:flex-col p-4">
 							<div class="w-full md:w-full flex justify-center items-center">
-								 {% if animal.images_animal  %}
-									<img class="object-contain w-[80%] h-48 md:h-full rounded-lg" src="{{ animal.images_animal[0].url}}" alt="Photo de" . {{ animal.nom}}>
-							 	{% else %}
+								 {% if animal.images_animal is empty %}
 									<img class="object-contain w-[80%] h-48 md:h-full rounded-lg" src="/images/animal_empty.webp"
 									alt="Photo à venir">
+							 	{% else %}
+									<img class="object-contain w-[80%] h-48 md:h-full rounded-lg" src="{{ animal.images_animal[0].url}}" alt="Photo de" . {{ animal.nom}}>
+
 								{% endif %}
 							</div>
 							<div class="flex-auto text-center">
@@ -185,7 +186,7 @@
 								</div>
 								<div class="flex mb-4 text-sm font-medium">
 									<a class="py-2 px-4 bg-accents1-light text-fond w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
-									href="{{ path('animal_details', {'id': animal.id }) }}">Découvrir</a>
+									href="{{ path('animal_details', {'animalId': animal.id }) }}">Découvrir</a>
 								</div>
 							</div>
 						</div>
