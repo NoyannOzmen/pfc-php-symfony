@@ -30,9 +30,7 @@ class AssociationController extends AbstractController
     public function show(EntityManagerInterface $entityManager, int $id): Response
     {
         $association = $entityManager->getRepository(Association::class)->find($id);
-        /* $animals = $association->getPensionnaires(); */
-        /* $animals = $animals->array_filter(['statut' => 'En refuge']); */
-
+        
         $animals = $association->getPensionnaires()->filter(function(Animal $animals) {
             return $animals->getStatut() === "En refuge";
         });

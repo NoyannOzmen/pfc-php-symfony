@@ -37,13 +37,14 @@
         </form>
       </section>
 
-      {% if association.images_association %}
         <div class="flex flex-col justify-center">
           <h3 class="font-body text-2xl text-center">Votre Logo actuel</h3>
-          <img class="w-[40%] mx-auto rounded-lg" src="{{ association.images_association[0].url }}" alt="">
+          {% if association.images_association is empty %}
+            <img class="w-[40%] mx-auto rounded-lg" src="/images/shelter_empty.webp" alt="">
+          {% else %}
+            <img class="w-[40%] mx-auto rounded-lg" src="{{ association.images_association[0].url }}" alt="">
+          {% endif %}
         </div>
-
-      {% endif %}
     </div>
   </main>
 

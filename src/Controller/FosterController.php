@@ -88,8 +88,11 @@ class FosterController extends AbstractController
         $famille = $entityManager->getRepository(Famille::class)->find($id);
 
         $requests = $entityManager->getRepository(Demande::class)->findBy(['famille' => $id]);
+        if (!$requests) {
+            $requests = [];
+        }
 
-        if (!$famille | !$requests) {
+        if (!$famille) {
             throw $this->createNotFoundException(
                 'No famille found for id '.$id
             );
@@ -111,10 +114,18 @@ class FosterController extends AbstractController
 
         $famille = $entityManager->getRepository(Famille::class)->find($id);
 
+/*         $requests = $entityManager->getRepository(Demande::class)->findBy(['famille' => $id]);
+        if (!$requests) {
+            $requests = [];
+        }
+        foreach ($requests as $request) {
+          $famille->removeDemande($request);
+        } */
+
         $entityManager->remove($famille);
         $entityManager->remove($user);
         $entityManager->flush();
         
-        return $this->render('/');
+        return $this->redirectToRoute('accueil');
     }
 }
