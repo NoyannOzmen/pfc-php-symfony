@@ -73,11 +73,11 @@ class ShelterController extends AbstractController
         if (isset($rue)) {$association->setRue($rue);};
         if (isset($commune)) {$association->setCommune($commune);};
         if (isset($$code_postal)) {$association->setCode_postal($code_postal);};
-        if (isset($$pays)) {$association->setCode_postal($pays);};
-        if (isset($$telephone)) {$association->setCode_postal($telephone);};
-        if (isset($$siret)) {$association->setCode_postal($siret);};
-        if (isset($$site)) {$association->setCode_postal($site);};
-        if (isset($$description)) {$association->setCode_postal($description);};
+        if (isset($$pays)) {$association->setPays($pays);};
+        if (isset($$telephone)) {$association->setTelephone($telephone);};
+        if (isset($$siret)) {$association->setSiret($siret);};
+        if (isset($$site)) {$association->setSite($site);};
+        if (isset($$description)) {$association->setDescription($description);};
 
         $entityManager->flush();
         $message = "Updated successfully !";
@@ -122,7 +122,11 @@ class ShelterController extends AbstractController
         $especes = $entityManager->getRepository(Espece::class)->findAll();
         $animals = $entityManager->getRepository(Animal::class)->findBy(['association' => $id]);
 
-        if (!$association | !$especes | !$animals) {
+        if (!$animals) {
+            $animals = [];
+        }
+
+        if (!$association | !$especes) {
             throw $this->createNotFoundException(
                 'No shelter found for id '.$id
             );
@@ -146,7 +150,11 @@ class ShelterController extends AbstractController
         $animals = $entityManager->getRepository(Animal::class)->findBy(['association' => $id, 'statut' => 'Accueilli']);
         $tags = $entityManager->getRepository(AnimalTag::class)->findAll();
 
-        if (!$association |!$animals) {
+        if (!$animals) {
+            $animals = [];
+        }
+
+        if (!$association) {
             throw $this->createNotFoundException(
                 'No shelter found for id '.$id
             );
@@ -275,6 +283,6 @@ class ShelterController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
         
-        return $this->render('/');
+        return $this->render('/staticPages/accueil.html/twig');
     }
 }
