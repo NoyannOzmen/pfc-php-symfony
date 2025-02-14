@@ -342,4 +342,32 @@ class ShelterController extends AbstractController
         
         return $this->redirectToRoute('accueil');
     }
+
+    #[Route('/association/profil/demandes/{requestId}/deny', name: 'shelter_deny_request', methods: ['POST'], requirements: ['page' => '\d+'])]
+    public function denyRequest(EntityManagerInterface $entityManager, int $requestId): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $request = $entityManager->getRepository(Demande::class)->find($requestId);
+
+        $request->setStatut_demande("Refusée");
+        $entityManager->persist($request);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('shelter_request_details', array('requestId' => $requestId));
+    }
+
+    #[Route('/association/profil/demandes/{requestId}/accept', name: 'shelter_accept_request', methods: ['POST'], requirements: ['page' => '\d+'])]
+    public function acceptRequest(EntityManagerInterface $entityManager, int $requestId): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $request = $entityManager->getRepository(Demande::class)->find($requestId);
+
+        $request->setStatut_demande("Acceptée");
+        $entityManager->persist($request);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('shelter_request_details', array('requestId' => $requestId));
+    }
 }
