@@ -46,11 +46,11 @@
               <div class="flex bg-fond rounded-lg shadow {# dark:bg-gray-800 #} flex-col md:flex-col mx-auto my-2 w-[75%] p-4">
 
                 <div class="w-full md:w-full flex justify-center items-center">
-                  {% if animal.images_animal %}
+                  {% if animal.images_animal is empty %}
+                    <img class="object-contain md:h-full rounded-lg" src="/images/animal_empty.webp" alt="Photo à venir">
+                  {% else %}
                     <img class="object-contain md:h-full rounded-lg"
                     src="{{ animal.images_animal[0].url}}" alt="Photo de" . {{ animal.nom}}>
-                  {% else %}
-                    <img class="object-contain md:h-full rounded-lg" src="/images/animal_empty.webp" alt="Photo à venir">
                   {% endif %}
                 </div>
 
@@ -71,7 +71,7 @@
                   </div>
                   <div class="flex mb-4 text-sm font-medium">
                     <a class="py-2 px-4 bg-accents1-light text-fond w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
-                      href="{{ path('animal_details', {'id': animal.id }) }}">Découvrir</a>
+                      href="{{ path('animal_details', {'animalId': animal.id }) }}">Découvrir</a>
                   </div>
                 </div>
               </div>
@@ -96,11 +96,11 @@
               <div class="flex bg-zoning rounded-lg shadow {# dark:bg-gray-800 #} flex-row md:flex-col p-2">
 
                 <div class="w-6 md:w-full flex justify-center items-center">
-                  {% if animal.images_animal  %}
-                    <img class="object-contain w-[80%] h-48 md:h-full rounded-lg"
-                    src="{{ animal.images_animal[0].url}}" alt="Photo de" . {{ animal.nom}}>
+                  {% if animal.images_animal is empty %}
+                    <img class="object-contain w-[80%] h-48 md:h-full rounded-lg" src="/images/animal_empty.webp" alt="Photo à venir">
                   {% else %}
-                      <img class="object-contain w-[80%] h-48 md:h-full rounded-lg" src="/images/animal_empty.webp" alt="Photo à venir">
+                    <img class="object-contain w-[80%] h-48 md:h-full rounded-lg"
+                    src="{{ animal.images_animal[0].url}}" alt="Photo de" . {{ animal.nom}}> 
                   {% endif %}
                 </div>
 
@@ -120,7 +120,7 @@
                   </div>
                   <div class="flex mb-4 text-sm font-medium">
                     <a class="py-2 px-4 bg-accents1-light text-fond w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
-                      href="{{ path('animal_details', {'id': animal.id }) }}">Découvrir</a>
+                      href="{{ path('animal_details', {'animalId': animal.id }) }}">Découvrir</a>
                   </div>
                 </div>
               </div>

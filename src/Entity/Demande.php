@@ -27,7 +27,7 @@ class Demande
     #[ORM\JoinColumn(nullable: false)]
     private ?Famille $famille = null;
 
-    #[ORM\ManyToOne(inversedBy: 'demandes')]
+    #[ORM\ManyToOne(inversedBy: 'demandes', fetch: "EAGER")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Animal $animal = null;
 

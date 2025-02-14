@@ -279,7 +279,9 @@ class ShelterController extends AbstractController
         $id = $refuge->getId();
 
         $association = $entityManager->getRepository(Association::class)->find($id);
-        $requestedAnimals = $association->getPensionnaires()->filter(
+        $requested = $association->getPensionnaires();
+        
+        $requestedAnimals = $requested->filter(
             function(Animal $animals) {
                 return $animals->getStatut() === "En refuge";
             });
@@ -290,7 +292,7 @@ class ShelterController extends AbstractController
             );
         }
         
-        return $this->render('shelter/dashDemandes.html.twig', ['association' => $association, 'requestedAnimals' => $requestedAnimals]);
+        return $this->render('shelter/dashDemandes.html.twig', ['association' => $association, 'requestedAnimals' => $requestedAnimals ]);
     }
 
     #[Route('/association/profil/demande/{requestId}', name: 'shelter_request_details', methods: ['GET'], requirements: ['page' => '\d+'])]
@@ -339,5 +341,33 @@ class ShelterController extends AbstractController
         $entityManager->flush();
         
         return $this->redirectToRoute('accueil');
+    }
+
+    #[Route('/association/profil/demandes/{requestId}/deny', name: 'shelter_deny_request', methods: ['POST'], requirements: ['page' => '\d+'])]
+    public function denyRequest(EntityManagerInterface $entityManager, int $requestId): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $request = $entityManager->getRepository(Demande::class)->find($requestId);
+
+        $request->setStatut_demande("Refusée");
+        $entityManager->persist($request);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('shelter_request_details', array('requestId' => $requestId));
+    }
+
+    #[Route('/association/profil/demandes/{requestId}/accept', name: 'shelter_accept_request', methods: ['POST'], requirements: ['page' => '\d+'])]
+    public function acceptRequest(EntityManagerInterface $entityManager, int $requestId): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $request = $entityManager->getRepository(Demande::class)->find($requestId);
+
+        $request->setStatut_demande("Acceptée");
+        $entityManager->persist($request);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('shelter_request_details', array('requestId' => $requestId));
     }
 }

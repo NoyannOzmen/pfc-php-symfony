@@ -39,10 +39,10 @@
             
             <div class="flex p-6 pb-4">
               <div class="flex flex-col gap-2">
-                {% if animal.images_animal %}
-                  <img class="w-28 rounded-lg" src={{ animal.images_animal[0].url }} alt="Photo de" . {{ animal.nom }}>
-                {% else %}
+                {% if animal.images_animal is empty %}
                   <img class="w-28 rounded-lg" src="/images/animal_empty.webp" alt="Photo à venir">
+                {% else %}
+                  <img class="w-28 rounded-lg" src={{ animal.images_animal[0].url }} alt="Photo de" . {{ animal.nom }}>
                 {% endif %}
                 <a class="rounded-full mx-auto block bg-accents1 text-fond w-16 text-center text-xs font-semibold py-1 hover:underline"
                 href="{{ path('shelter_animal_details', {'animalId': animal.id }) }}">Détails</a>
@@ -134,14 +134,10 @@
          <div class="w-full flex flex-row flex-wrap md:flex-nowrap justify-center gap-2 items-center">
           <h4 class="font-body font-bold text-center">Statut de la demande :</h4>
           <p id="request-status" class="font-body text-center">{{ request.statut_demande }}</p>
-          <form class="w-[80%] md:w-[20%]"
-          {# action="{{ path('request_accept', {'id': request.id }) }}" #}
-          action="/association/profil/demandes/{{ request.id }}/accept" method="POST">
+          <form class="w-[80%] md:w-[20%]" action="{{ path('shelter_accept_request', {'requestId': request.id }) }}" method="POST">
             <button type="submit" class="bg-accents1 w-full m-3 py-2 px-4 text-fond transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg">Accepter</button>
           </form>
-          <form class="w-[80%] md:w-[20%]" 
-          {# action="{{ path('request_deny', {'id': request.id }) }}" #}
-          action="/association/profil/demandes/{{ request.id }}/deny" method="POST">
+          <form class="w-[80%] md:w-[20%]" action="{{ path('shelter_deny_request', {'requestId': request.id }) }}" method="POST">
             <button type="submit" class="bg-accents2-dark w-full m-3 py-2 px-4 text-fond transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg">Refuser</button>
           </form>
         </div>
