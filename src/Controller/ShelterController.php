@@ -10,6 +10,7 @@ use App\Entity\Demande;
 use App\Entity\Famille;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -35,6 +36,53 @@ class ShelterController extends AbstractController
         }
         
         return $this->render('shelter/dashInfos.html.twig', ['association' => $association]);
+    }
+
+    #[Route('/association/profil/update', name: 'shelter_profile_update', methods: ['POST'])]
+    public function fosterUpdate(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+  
+        /** @var \App\Entity\Utilisateur $user */
+        $user = $this->getUser();
+        /** @var \App\Entity\Utilisateur $user */
+        $accueillant = $user->getRefuge();
+        $id = $accueillant->getId();
+
+        $association = $entityManager->getRepository(Association::class)->find($id);
+
+        if (!$association) {
+            throw $this->createNotFoundException(
+                'No shelter found for id '.$id
+            );
+        }
+
+        $nom = $request->request->get('_nom');
+        $president = $request->request->get('_president');
+        $rue = $request->request->get('_rue');
+        $commune = $request->request->get('_commune');
+        $code_postal = $request->request->get('_code_postal');
+        $pays = $request->request->get('_pays');
+        $telephone = $request->request->get('_telephone');
+        $siret = $request->request->get('_siret');
+        $site = $request->request->get('_site');
+        $description = $request->request->get('_description');
+
+        if (isset($nom)) {$association->setNom($nom);};
+        if (isset($president)) {$association->setResponsable($president);};
+        if (isset($rue)) {$association->setRue($rue);};
+        if (isset($commune)) {$association->setCommune($commune);};
+        if (isset($$code_postal)) {$association->setCode_postal($code_postal);};
+        if (isset($$pays)) {$association->setCode_postal($pays);};
+        if (isset($$telephone)) {$association->setCode_postal($telephone);};
+        if (isset($$siret)) {$association->setCode_postal($siret);};
+        if (isset($$site)) {$association->setCode_postal($site);};
+        if (isset($$description)) {$association->setCode_postal($description);};
+
+        $entityManager->flush();
+        $message = "Updated successfully !";
+
+        return $this->render('shelter/dashInfos.html.twig', ['association' => $association, 'message' => $message]);
     }
 
     #[Route('/association/profil/logo', name: 'shelter_logo', methods: ['GET'])]
