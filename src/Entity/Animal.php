@@ -57,7 +57,7 @@ class Animal
     /**
      * @var Collection<int, Demande>
      */
-    #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'demandes', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'animal', fetch: "EAGER")]
     private Collection $demandes;
 
     /**

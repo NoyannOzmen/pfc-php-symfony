@@ -279,7 +279,9 @@ class ShelterController extends AbstractController
         $id = $refuge->getId();
 
         $association = $entityManager->getRepository(Association::class)->find($id);
-        $requestedAnimals = $association->getPensionnaires()->filter(
+        $requested = $association->getPensionnaires();
+        
+        $requestedAnimals = $requested->filter(
             function(Animal $animals) {
                 return $animals->getStatut() === "En refuge";
             });
@@ -290,7 +292,7 @@ class ShelterController extends AbstractController
             );
         }
         
-        return $this->render('shelter/dashDemandes.html.twig', ['association' => $association, 'requestedAnimals' => $requestedAnimals]);
+        return $this->render('shelter/dashDemandes.html.twig', ['association' => $association, 'requestedAnimals' => $requestedAnimals ]);
     }
 
     #[Route('/association/profil/demande/{requestId}', name: 'shelter_request_details', methods: ['GET'], requirements: ['page' => '\d+'])]
