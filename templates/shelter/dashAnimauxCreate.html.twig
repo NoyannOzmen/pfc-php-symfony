@@ -27,21 +27,20 @@
       </nav>
       
       <section class="flex flex-col justify-center content-center">
-        {# Titre caché pour le mobile #}
         <h3 class="hidden md:inline font-grands text-3xl text-center my-2 pt-5 w-full">Créer un profil animal</h3>
         
-        <form class="grid grid-cols-1 my-6 mx-6 justify-center lg:flex-none lg:mx-2 lg:grid lg:grid-cols-3 lg:px-2 xl:grid-cols-3 xl:p-10" action="/animaux/nouveau-profil" method="post">
+        <form class="grid grid-cols-1 my-6 mx-6 justify-center lg:flex-none lg:mx-2 lg:grid lg:grid-cols-3 lg:px-2 xl:grid-cols-3 xl:p-10" {# action="/animaux/nouveau-profil" #} method="POST">
           
           <fieldset class="flex flex-wrap justify-center content-start gap-x-4">
             
             <div class="mb-2 w-[90%]">
               <label for="nom_animal" class="block font-grands w-full font-bold text-base ">Nom</label>
-              <input class="w-full rounded-md h-8 px-2 py-1 text-texte bg-fond " type="text" name="nom_animal" id="nom_animal" required>
+              <input class="w-full rounded-md h-8 px-2 py-1 text-texte bg-fond " type="text" name="_nom_animal" id="nom_animal" required>
             </div>
             
             <div class="mb-2 w-[90%]">
               <label for="sexe_animal" class="block w-full font-grands font-bold text-base ">Sexe</label>
-              <select name="sexe_animal" id="sexe_animal" class="custom-select w-full rounded-md h-8 px-2 py-1 text-texte bg-fond ">
+              <select name="_sexe_animal" id="sexe_animal" class="custom-select w-full rounded-md h-8 px-2 py-1 text-texte bg-fond ">
                 <option value="Inconnu">Inconnu</option>
                 <option value="Mâle">Mâle</option>
                 <option value="Femelle">Femelle</option>
@@ -50,7 +49,7 @@
 
             <div class="mb-2 w-[90%]">
               <label for="age_animal" class="block w-full font-grands font-bold text-base ">Age</label>
-              <input class="w-full rounded-md h-8 px-2 py-1 text-texte bg-fond " type="number" name="age_animal" id="age_animal" required>
+              <input class="w-full rounded-md h-8 px-2 py-1 text-texte bg-fond " type="number" name="_age_animal" id="age_animal" required>
             </div>
           </fieldset>
           
@@ -60,7 +59,7 @@
             
             <div class="mb-2 w-[90%] md:shrink md:grow-0 self-start">
               <label for="espece_animal" class="block w-full font-grands font-bold text-base ">Espèce</label>
-              <select name="espece_animal" id="espece_animal" class="custom-select w-full rounded-md h-8 px-2 py-1 text-texte bg-fond ">
+              <select name="_espece_animal" id="espece_animal" class="custom-select w-full rounded-md h-8 px-2 py-1 text-texte bg-fond ">
                 <option value="">Choisissez</option>
                   {% for espece in especes %}
                     <option value="{{ espece.id }}">{{ espece.nom }}</option>
@@ -70,11 +69,11 @@
                 
             <div class="mb-2 w-[90%]">
               <label for="race_animal" class="block w-full font-grands font-bold text-base ">Race</label>
-              <input class="w-full rounded-md h-8 px-2 py-1 text-texte bg-fond " type="text" name="race_animal" id="race_animal">
+              <input class="w-full rounded-md h-8 px-2 py-1 text-texte bg-fond " type="text" name="_race_animal" id="race_animal">
             </div>
             <div class="mb-2 w-[90%]">
               <label for="couleur_animal" class="block w-full font-grands font-bold text-base ">Couleur</label>
-              <input class="w-full rounded-md h-8 px-2 py-1 text-texte bg-fond " type="text" name="couleur_animal" id="couleur_animal" required>
+              <input class="w-full rounded-md h-8 px-2 py-1 text-texte bg-fond " type="text" name="_couleur_animal" id="couleur_animal" required>
             </div>
           </fieldset>
               
@@ -84,13 +83,13 @@
            
             <div class="mb-2 grow ">
               <label for="description_animal" class="block font-grands font-bold text-base w-full">Description</label>
-              <textarea class="w-full rounded-md px-2 py-1 text-texte bg-fond " name="description_animal" id="description_animal" rows="3" required></textarea>
+              <textarea class="w-full rounded-md px-2 py-1 text-texte bg-fond " name="_description_animal" id="description_animal" rows="3" required></textarea>
             </div>
 
             <div class="mb-2 w-full">
               <p for="couleur-animal" class="block font-grands font-bold text-base mb-4 shrink">Tags</p>
               
-              <fieldset name="tags-animal" id="tags-animal" class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full px-2 py-1">
+              <fieldset name="_tags-animal" id="tags-animal" class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full px-2 py-1">
                 
                 {% for tag in tags %}
                   <div class="flex gap-x-1.5 w-full"> 

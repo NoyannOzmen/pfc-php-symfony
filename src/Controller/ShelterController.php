@@ -6,6 +6,7 @@ use App\Entity\Espece;
 use App\Entity\Animal;
 use App\Entity\Tag;
 use App\Entity\AnimalTag;
+use App\Entity\Media;
 use App\Entity\Demande;
 use App\Entity\Famille;
 use Doctrine\ORM\EntityManagerInterface;
@@ -163,8 +164,8 @@ class ShelterController extends AbstractController
         return $this->render('shelter/dashAnimauxSuiviAccueil.html.twig', ['association' => $association, 'animals' => $animals, 'tags' => $tags]);
     }
 
-    #[Route('/association/profil/animaux/nouveau-profil', name: 'shelter_create_animal', methods: ['GET'])]
-    public function shelterCreateAnimal(EntityManagerInterface $entityManager): Response
+    #[Route('/association/profil/animaux/nouveau-profil', name: 'shelter_create_animal')]
+    public function shelterCreateAnimal(EntityManagerInterface $entityManager, Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
   
@@ -183,7 +184,57 @@ class ShelterController extends AbstractController
                 'No shelter found for id '.$id
             );
         }
-        
+
+        if ($request->isMethod('POST')) {
+            $name = $request->request->get('_nom_animal');
+            $sex = $request->request->get('_sexe_animal');
+            $age = $request->request->get('_age_animal');
+            $species = $request->request->get('_espece_animal');
+            $espece = $entityManager->getRepository(Espece::class)->find($species);
+            $race = $request->request->get('_race_animal');
+            $colour = $request->request->get('_couleur_animal');
+            $description = $request->request->get('_description_animal');
+            $animal_tags = $request->request->get('_tags-animal');
+            
+            $newAnimal = new Animal();
+            $newAnimal->setNom($name);
+            $newAnimal->setSexe($sex);
+            $newAnimal->setAge($age);
+            $newAnimal->setEspece($espece);
+            if (isset($race)) {
+                $newAnimal->setRace($race);
+            }
+            $newAnimal->setCouleur($colour);
+            $newAnimal->setDescription($description);
+            $newAnimal->setRefuge($association);
+/*             if (isset($animal_tags)) {
+                foreach ($animal_tags as $tag) {
+                    $newAnimal->addTag($tag);
+                }
+            } */
+            $newAnimal->setStatut('En Refuge');
+            $entityManager->persist($newAnimal);
+
+            $animalId = $newAnimal->getId();
+            $newPhoto = new Media();
+            $newPhoto->setOrdre(1);
+            $newPhoto->setAnimalId($animalId);
+            $newPhoto->setUrl('/images/animal_empty.webp');
+            $entityManager->persist($newPhoto);
+
+/*             if (isset($animal_tags)) {
+                foreach ($animal_tags as $tag) {
+                    $newRelation = new AnimalTag();
+                    $newRelation->setAnimal($newAnimal);
+                    $newRelation->setTags($tag);
+                    $entityManager->persist($newRelation);
+                };
+            } */
+
+            $entityManager->flush();
+            $this->addFlash('notice', "Profil animal créé avec succès");
+        }
+
         return $this->render('shelter/dashAnimauxCreate.html.twig', ['association' => $association, 'especes' => $especes, 'tags' => $tags]);
     }
 
@@ -203,7 +254,11 @@ class ShelterController extends AbstractController
         $demandes = $entityManager->getRepository(Demande::class)->findBy(['animal' => $animalId]);
         $tags = $entityManager->getRepository(AnimalTag::class)->findBy(['animal' => $id]);
 
-        if (!$association | !$animal | !$demandes) {
+        if (!$demandes) {
+            $demandes = [];
+        }
+
+        if (!$association | !$animal ) {
             throw $this->createNotFoundException(
                 'No shelter found for id '.$id
             );
