@@ -85,10 +85,10 @@
             {% for animal in animals %}
               {# ANIMAL CARD POUR LE DASHBOARD ASSO -->  #} 
               <a data-animalId="{{ animal.id }}" data-nom="{{ animal.nom }}" data-espece="{{ animal.espece.id }}"  data-statut="{{ animal.statut }}" class="animal_card animal_card--visible flex flex-col justify-between content-center relative bg-fond rounded-xl w-36 h-36 shrink-0 md:size-60" href="{{ path('shelter_animal_details', {'animalId': animal.id }) }}">
-                {% if animal.images_animal %}
-                  <img class="rounded-t-xl" src={{ animal.images_animal[0].url}} alt="Photo de" . {{ animal.nom }}>
-                {% else %}
+                {% if animal.images_animal is empty %}
                   <img class="rounded-t-xl" src="/images/animal_empty.webp" alt="image par défaut">
+                {% else %}
+                  <img class="rounded-t-xl" src={{ animal.images_animal[0].url}} alt="Photo de" . {{ animal.nom }}>
                 {% endif %}
                 
                 <p class="text-sm text-center font-semibold md:text-base">{{ animal.nom }}</p>
