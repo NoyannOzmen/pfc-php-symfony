@@ -22,7 +22,7 @@ class Espece
     /**
      * @var Collection<int, Animal>
      */
-    #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'espece', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'espece', fetch: "EAGER")]
     private Collection $representants;
 
     public function __construct()

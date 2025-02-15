@@ -12,13 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 class AnimalController extends AbstractController
 {
-    #[Route('/animaux', name: 'animals', methods: ['GET'])]
-    public function displayAll(EntityManagerInterface $entityManager): Response
+    #[Route('/animaux', name: 'animals')]
+    public function displayAll(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $animals = $entityManager->getRepository(Animal::class)->findAll();
+        $animals = $entityManager->getRepository(Animal::class)->findBy(['statut' => "En refuge"]);
         $tags = $entityManager->getRepository(Tag::class)->findAll();
         $especes = $entityManager->getRepository(Espece::class)->findAll();
 
@@ -26,6 +27,63 @@ class AnimalController extends AbstractController
             throw $this->createNotFoundException(
                 'We\'re missing something'
             );
+        }
+
+        if ($request->isMethod('POST')) {
+                $speciesSmall = $request->request->get('_especeDropdownSmall');
+                $speciesFull = $request->request->get('_especeDropdownFull');
+                $sexe = $request->request->get('_sexe');
+                $minAge = $request->request->get('_minAge');
+                $maxAge = $request->request->get('_maxAge');
+                $statut = "En refuge";
+
+                $query = "SELECT * FROM Animal";
+                $conditions = array();
+
+                $conditions[] = "statut='$statut'";
+
+                if(! empty($speciesSmall)) {
+                $conditions[] = "espece_id=$speciesSmall";
+                }
+                if(! empty($speciesFull)) {
+                $conditions[] = "espece_id=$speciesFull";
+                }
+                if(! empty($sexe)) {
+                $conditions[] = "sexe='$sexe'";
+                }
+                if(! empty($minAge)) {
+                $conditions[] = "age>$minAge";
+                }
+                if(! empty($maxAge)) {
+                $conditions[] = "age<$maxAge";
+                }
+
+                $sql = $query;
+                if (count($conditions) > 0) {
+                $sql .= " WHERE " . implode(' AND ', $conditions);
+                }
+
+                $rsm = new ResultSetMapping();
+                $rsm->addEntityResult(Animal::class, 'a');
+                $rsm->addFieldResult('a', 'id', 'id');
+                $rsm->addFieldResult('a', 'nom', 'nom');
+                $rsm->addFieldResult('a', 'sexe', 'sexe');
+                $rsm->addFieldResult('a', 'age', 'age');
+                $rsm->addFieldResult('a', 'race', 'race');
+                $rsm->addFieldResult('a', 'couleur', 'couleur');
+                $rsm->addFieldResult('a', 'description', 'description');
+                $rsm->addJoinedEntityResult(Espece::class , 'e', 'a', 'espece');
+                $rsm->addFieldResult('e', 'espece_id', 'id');
+
+                $query = $entityManager->createNativeQuery($sql, $rsm);
+                dump($query);
+
+                $searchedAnimals = $query->getResult();
+                dump($searchedAnimals);
+
+                $animals = $searchedAnimals;
+
+                return $this->render('animaux/animalList.html.twig', ['animals' => $animals, 'tags' => $tags, 'especes' => $especes]);
         }
         
         return $this->render('animaux/animalList.html.twig', ['animals' => $animals, 'tags' => $tags, 'especes' => $especes]);

@@ -9,7 +9,6 @@ Ce dépôt contient une conversion en PHP 8 du projet PetFosterConnect, tout en 
 ### Ce qu'il reste à implémenter (WIP)
 
 - Upload d'images (logo pour association, photo pour animaux)
-- Fonction de recherche d'associations / d'animaux et filtrage des résultats
 
 ## Présentation
 

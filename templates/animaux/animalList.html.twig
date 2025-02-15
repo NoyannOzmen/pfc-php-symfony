@@ -5,13 +5,13 @@
   
   {# Menu de recherche #}
   <div class="md:my-3 flex flex-wrap font-body w-full bg-zoning rounded-lg shadow {# dark:bg-gray-800 #} justify-around">
-    <form class="text-texte justify-around" action="/animaux" method="POST">
+    <form class="text-texte justify-around" {# action="/animaux" #} method="POST">
       <div id="fullSearch" class="mx-2 col-span-3 items-center flex flex-wrap justify-around">
         <h3 class="font-grands text-2xl w-full my-2 text-center">Rechercher un animal</h3>
-        <select tabindex=0 class="col-span-3 text-xs block w-[50%] bg-fond" id="espece-dropdown-small" name="especeDropdownSmall">
+        <select tabindex=0 class="col-span-3 text-xs block w-[50%] bg-fond" id="espece-dropdown-small" name="_especeDropdownSmall">
           <option value="" disabled selected hidden>--Choisissez une espèce--</option>
           {% for espece in especes %}
-            <option name=espece value="{{ espece.nom }}">{{ espece.nom }}</option> 
+            <option name="espece" value="{{ espece.id }}">{{ espece.nom }}</option> 
           {% endfor %}
 
             
@@ -28,10 +28,10 @@
           {# Choix de l'espèce #}
           <div class="my-2">
             <label class=# for="espece-dropdown-full">Espèce</label>
-            <select tabindex=0 class="text-xs block bg-fond" id="espece-dropdown-full" name="especeDropdownFull">
+            <select tabindex=0 class="text-xs block bg-fond" id="espece-dropdown-full" name="_especeDropdownFull">
               <option value="" disabled selected hidden>--Choisissez une espèce--</option>
               {% for espece in especes %}
-                <option name=espece value="{{ espece.nom }}">{{ espece.nom }}</option> 
+                <option name="espece" value="{{ espece.id }}">{{ espece.nom }}</option> 
               {% endfor %}
             </select>
           </div>
@@ -40,9 +40,9 @@
           <div class="my-2">
             <fieldset id="sexe">
               <legend>Sexe</legend>
-              <label><input type="radio" name="sexe" value="Mâle" class="mx-1">Mâle</label>
-              <label><input type="radio" name="sexe" value="Femelle" class="mx-1">Femelle</label>
-              <label><input type="radio" name="sexe" value="Inconnu" class="mx-1">Inconnu</label>
+              <label><input type="radio" name="_sexe" value="Mâle" class="mx-1">Mâle</label>
+              <label><input type="radio" name="_sexe" value="Femelle" class="mx-1">Femelle</label>
+              <label><input type="radio" name="_sexe" value="Inconnu" class="mx-1">Inconnu</label>
             </fieldset>
           </div>
           
@@ -50,9 +50,9 @@
           <div class="my-2">
             <p>Age :</p>
             <label class=# for="age-min">De&nbsp;</label>
-            <input class="bg-fond" id="age-min" name="minAge" type="number" tabindex=0 min="0" max="3999">
+            <input class="bg-fond" id="age-min" name="_minAge" type="number" tabindex=0 min="0" max="3999">
             <label class=# for="age-max">&nbsp;à&nbsp;</label>
-            <input class="bg-fond" id="age-max" name="maxAge" type="number" tabindex=0 min="1" max="4000">
+            <input class="bg-fond" id="age-max" name="_maxAge" type="number" tabindex=0 min="1" max="4000">
             <label>&nbsp;ans.</label>
           </div>
         </div>
@@ -63,7 +63,7 @@
           {% for tag in tags %}
             <div>
               <label class=# for="{{ tag.nom }}">{{ tag.nom }}</label>
-              <input class=# type="checkbox" name="tag" id="{{ tag.nom }}" value="{{ tag.nom }}"/>
+              <input class=# type="checkbox" name="_tag" id="{{ tag.nom }}" value="{{ tag.nom }}"/>
             </div>
           {% endfor %}
         </div>
@@ -72,7 +72,7 @@
           <div class="my-2">
             {# Département #}
             <label for="dpt-select">Département</label>
-            <select tabindex=0 class="text-xs block bg-fond" id="dpt-select" name="dptSelect">
+            <select tabindex=0 class="text-xs block bg-fond" id="dpt-select" name="_dptSelect">
               <option value="00" disabled selected hidden>--Choisissez un département--</option>
               <option value="01">01 - Ain</option> 
               <option value="02">02 - Aisne</option> 

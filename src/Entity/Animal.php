@@ -43,11 +43,11 @@ class Animal
     #[ORM\OneToMany(targetEntity: Media::class, mappedBy: 'animal')]
     private Collection $images_animal;
 
-    #[ORM\ManyToOne(inversedBy: 'pensionnaires')]
+    #[ORM\ManyToOne(inversedBy: 'pensionnaires', fetch: "EAGER")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Association $association = null;
 
-    #[ORM\ManyToOne(inversedBy: 'representants')]
+    #[ORM\ManyToOne(inversedBy: 'representants', fetch: "EAGER")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Espece $espece = null;
 
@@ -63,7 +63,7 @@ class Animal
     /**
      * @var Collection<int, AnimalTag>
      */
-    #[ORM\OneToMany(targetEntity: AnimalTag::class, mappedBy: 'tags')]
+    #[ORM\OneToMany(targetEntity: AnimalTag::class, mappedBy: 'animal')]
     private Collection $tags;
 
     public function __construct()
@@ -215,12 +215,12 @@ class Animal
         return $this;
     }
 
-    public function getAccueillant(): ?Famille
+    public function getFamille(): ?Famille
     {
         return $this->famille;
     }
 
-    public function setAccueillant(?Famille $famille): static
+    public function setFamille(?Famille $famille): static
     {
         $this->famille = $famille;
 

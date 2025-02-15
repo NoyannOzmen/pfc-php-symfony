@@ -8,7 +8,7 @@
     <form class="text-texte justify-around" action="/associations" method="POST">
       <div id="fullSearch" class="mx-2 col-span-3 items-center flex flex-wrap justify-around">
         <h3 class="font-grands text-2xl w-full my-2 text-center">Rechercher une association</h3>
-        <select tabindex=0 class="col-span-3 text-xs block w-[50%] bg-fond" id="dpt-select-small" name="dptSelectSmall">
+        <select tabindex=0 class="col-span-3 text-xs block w-[50%] bg-fond" id="dpt-select-small" name="_dptSelectSmall">
           <option value="00" disabled selected hidden>--Choisissez un département--</option>
           <option value="01">01 - Ain</option> 
           <option value="02">02 - Aisne</option> 
@@ -122,7 +122,7 @@
           <fieldset class="mx-auto p-2 my-2">
             {# Nom du refuge #}
             <label class=# for="shelter-nom">Nom du refuge</label>
-            <input class="text-xs block" type="text" id="shelter-nom" name="shelterNom" placeholder="--Entrez un nom--">
+            <input class="text-xs block" type="text" id="shelter-nom" name="_shelterNom" placeholder="--Entrez un nom--">
           </fieldset>
         </div>
         
@@ -132,7 +132,7 @@
             {% for espece in especes %}
               <div>
                 <label class=# for="{{ espece.nom }}">{{ espece.nom }}</label>
-                <input class=# type="checkbox" name=espece id="{{ espece.nom }}" value="{{ espece.nom }}"/>
+                <input class=# type="checkbox" name="_espece" value="{{ espece.nom }}"/>
               </div>
             {% endfor %}
           </fieldset>
@@ -143,7 +143,7 @@
           
             {# Département #}
             <label for="dpt-select">Département</label>
-            <select tabindex=0 class="text-xs block bg-fond" id="dpt-select-full" name="dptSelectFull">
+            <select tabindex=0 class="text-xs block bg-fond" id="dpt-select-full" name="_dptSelectFull">
               <option value="00" disabled selected hidden>--Choisissez un département--</option>
               <option value="01">01 - Ain</option> 
               <option value="02">02 - Aisne</option> 
