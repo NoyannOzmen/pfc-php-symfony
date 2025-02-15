@@ -46,13 +46,13 @@ class Famille
     /**
      * @var Collection<int, Animal>
      */
-    #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'accueillant')]
+    #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'famille')]
     private Collection $animaux;
 
     /**
      * @var Collection<int, Demande>
      */
-    #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'demandes')]
+    #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'famille')]
     private Collection $demandes;
 
     /* #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -194,7 +194,7 @@ class Famille
     {
         if (!$this->animaux->contains($animaux)) {
             $this->animaux->add($animaux);
-            $animaux->setAccueillant($this);
+            $animaux->setFamille($this);
         }
 
         return $this;
@@ -204,8 +204,8 @@ class Famille
     {
         if ($this->animaux->removeElement($animaux)) {
             // set the owning side to null (unless already changed)
-            if ($animaux->getAccueillant() === $this) {
-                $animaux->setAccueillant(null);
+            if ($animaux->getFamille() === $this) {
+                $animaux->setFamille(null);
             }
         }
 

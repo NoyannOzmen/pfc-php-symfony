@@ -4,11 +4,11 @@
 <main class="justify-self-stretch flex-1">
   
   {# Menu de recherche #}
-  <div class="md:my-3 flex flex-wrap font-body w-full bg-zoning rounded-lg shadow {# dark:bg-gray-800 #} justify-around">
-    <form class="text-texte justify-around" action="/associations" method="POST">
+  <div class="md:my-3 flex flex-wrap font-body w-full bg-zoning rounded-lg shadow justify-around">
+    <form class="text-texte justify-around" method="POST">
       <div id="fullSearch" class="mx-2 col-span-3 items-center flex flex-wrap justify-around">
         <h3 class="font-grands text-2xl w-full my-2 text-center">Rechercher une association</h3>
-        <select tabindex=0 class="col-span-3 text-xs block w-[50%] bg-fond" id="dpt-select-small" name="dptSelectSmall">
+        <select tabindex=0 class="col-span-3 text-xs block w-[50%] bg-fond" id="dpt-select-small" name="_dptSelectSmall">
           <option value="00" disabled selected hidden>--Choisissez un département--</option>
           <option value="01">01 - Ain</option> 
           <option value="02">02 - Aisne</option> 
@@ -122,7 +122,7 @@
           <fieldset class="mx-auto p-2 my-2">
             {# Nom du refuge #}
             <label class=# for="shelter-nom">Nom du refuge</label>
-            <input class="text-xs block" type="text" id="shelter-nom" name="shelterNom" placeholder="--Entrez un nom--">
+            <input class="text-xs block" type="text" id="shelter-nom" name="_shelterNom" placeholder="--Entrez un nom--">
           </fieldset>
         </div>
         
@@ -132,7 +132,7 @@
             {% for espece in especes %}
               <div>
                 <label class=# for="{{ espece.nom }}">{{ espece.nom }}</label>
-                <input class=# type="checkbox" name=espece id="{{ espece.nom }}" value="{{ espece.nom }}"/>
+                <input class=# type="checkbox" name="_espece" value="{{ espece.nom }}"/>
               </div>
             {% endfor %}
           </fieldset>
@@ -143,7 +143,7 @@
           
             {# Département #}
             <label for="dpt-select">Département</label>
-            <select tabindex=0 class="text-xs block bg-fond" id="dpt-select-full" name="dptSelectFull">
+            <select tabindex=0 class="text-xs block bg-fond" id="dpt-select-full" name="_dptSelectFull">
               <option value="00" disabled selected hidden>--Choisissez un département--</option>
               <option value="01">01 - Ain</option> 
               <option value="02">02 - Aisne</option> 
@@ -268,32 +268,32 @@
   {% if associations is empty %}
     <h3 class="font-grands text-2xl w-full my-2 text-center">Aucun refuge ne correspond à votre recherche</h3>
   {% endif %}
-  
-  <div class="grid grid-cols-3 gap-3 m-3">       
-    {% for association in associations %}       
-      <div class="bg-zoning rounded-lg shadow {# dark:bg-gray-800 #} flex flex-col">
-          
+
+      <div class="grid grid-cols-3 gap-3 m-3">       
+        {% for association in associations %}       
+          <div class="bg-zoning rounded-lg shadow flex flex-col">
+              
             <div class="relative md:w-full flex justify-center items-center">
-            {% if association.images_association %}
-                <img class="font-body rounded-lg" src={{ association.images_association[0].url }} class="rounded-lg"  alt="Logo de" . {{ association.nom }}>
-            {% else %}
-                <img class="font-body rounded-lg" src="/images/shelter_empty.webp" alt="Logo de" . {{ association.nom }} . "bientôt visible">
-            {% endif %}
+              {% if association.images_association %}
+                  <img class="font-body rounded-lg" src={{ association.images_association[0].url }} class="rounded-lg"  alt="Logo de" . {{ association.nom }}>
+              {% else %}
+                  <img class="font-body rounded-lg" src="/images/shelter_empty.webp" alt="Logo de" . {{ association.nom }} . "bientôt visible">
+              {% endif %}
             </div>
 
             <div class="flex text-center flex-col">
               <div class="flex flex-wrap">
-                <h3 class="flex-auto text-xl md:text-3xl font-grands {# dark:text-gray-50 #}">{{ association.nom }}</h3>
+                <h3 class="flex-auto text-xl md:text-3xl font-grands">{{ association.nom }}</h3>
                 <hr>
-                <p class="flex-none w-full mt-2 text-xs md:text-xl font-medium text-gray-500 {# dark:text-gray-300 #}">Localisation : {{ association.code_postal }}&nbsp;{{ association.commune }}</p>
+                <p class="flex-none w-full mt-2 text-xs md:text-xl font-medium text-gray-500">Localisation : {{ association.code_postal }}&nbsp;{{ association.commune }}</p>
               </div>
               <div class="flex text-sm font-medium justify-center items-end">
                 <a class="my-2 bg-accents1-light text-fond w-[90%] transition ease-in duration-200 text-center text-xs md:text-2xl font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" href="{{ path('shelter_details', {'id': association.id }) }}">En savoir plus</a>
               </div>
             </div>
+          </div>
+        {% endfor %}
       </div>
-    {% endfor %}
-  </div>
           
 </main>
 

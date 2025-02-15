@@ -41,7 +41,7 @@
             {% for animal in animals %}
               <tr tabindex="0" class="view  text-fond text-sm bg-accents2 font-grands font-semibold p-3 border-accents2-dark border-solid border-1 hover:bg-accents2-dark">
                 <td class="px-2 pt-2  border-accents2-dark border-solid border-1">{{ animal.nom }}</td>
-                <td class="px-2 pt-2  border-accents2-dark border-solid border-1">{{ animal.accueillant.nom }}</td>
+                <td class="px-2 pt-2  border-accents2-dark border-solid border-1">{{ animal.famille.nom }}</td>
               </tr>
               
               <tr class="fold hidden mb-3 bg-fond rounded-b-lg ">
@@ -116,28 +116,28 @@
                       <div class="px-6 mb-3 md:grid-cols-2 md:grid">
                         <div class="mb-2 mt-2">
                           <p class="text-sm italic leading-3">Nom</p>
-                          <p class="text-base font-semibold">{{ animal.accueillant.nom }}</p>
+                          <p class="text-base font-semibold">{{ animal.famille.nom }}</p>
                         </div>
                         <div class="mb-2">
                           <p class="text-sm italic leading-3">Téléphone</p>
-                          <p class="text-base font-semibold">{{ animal.accueillant.telephone }}</p>
+                          <p class="text-base font-semibold">{{ animal.famille.telephone }}</p>
                         </div>
                         <div class="mb-2">
                           <p class="text-sm italic leading-3">e-mail</p>
-                          {# <p class="text-base font-semibold">{{ animal.accueillant.accueillant.email }}</p> #}
+                          <p class="text-base font-semibold">{{ animal.famille.utilisateur.email }}</p>
                         </div>
                         <div class="mb-2">
                           <p class="text-sm italic leading-4">Adresse</p>
-                          <p class="text-base font-semibold leading-3">{{ animal.accueillant.rue }}</p>
-                          <p class="text-base font-semibold ">{{ animal.accueillant.code_postal }}&nbsp;{{ animal.accueillant.commune  }}</p>
+                          <p class="text-base font-semibold leading-3">{{ animal.famille.rue }}</p>
+                          <p class="text-base font-semibold ">{{ animal.famille.code_postal }}&nbsp;{{ animal.famille.commune  }}</p>
                         </div>
                         <div class="mb-2">
                           <p class="text-sm italic leading-3">Pays</p>
-                          <p class="text-base font-semibold">{{ animal.accueillant.pays }}</p>
+                          <p class="text-base font-semibold">{{ animal.famille.pays }}</p>
                         </div>
                         <div>
                           <p class="text-sm italic leading-3">Hébergement</p>
-                          <p class="text-base font-semibold">{{ animal.accueillant.hebergement }}</p>
+                          <p class="text-base font-semibold">{{ animal.famille.hebergement }}</p>
                         </div>
                       </div>      
                     </div>

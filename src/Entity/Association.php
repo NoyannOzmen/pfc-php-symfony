@@ -55,7 +55,7 @@ class Association
     /**
      * @var Collection<int, Animal>
      */
-    #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'association', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'association', fetch: "EAGER")]
     private Collection $pensionnaires;
 
     /* #[ORM\OneToOne(cascade: ['persist', 'remove'])]

@@ -25,7 +25,7 @@ class Tag
     /**
      * @var Collection<int, AnimalTag>
      */
-    #[ORM\OneToMany(targetEntity: AnimalTag::class, mappedBy: 'tags')]
+    #[ORM\OneToMany(targetEntity: AnimalTag::class, mappedBy: 'tag')]
     private Collection $tags;
 
     public function __construct()

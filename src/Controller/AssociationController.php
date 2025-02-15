@@ -4,24 +4,72 @@ namespace App\Controller;
 use App\Entity\Animal;
 use App\Entity\Association;
 use App\Entity\Espece;
+use App\Entity\Media;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 class AssociationController extends AbstractController
 {
-    #[Route('/associations', name: 'associations', methods: ['GET'])]
-    public function displayAll(EntityManagerInterface $entityManager): Response
+    #[Route('/associations', name: 'associations')]
+    public function displayAll(Request $request, EntityManagerInterface $entityManager): Response
     {
         $associations = $entityManager->getRepository(Association::class)->findAll();
         $especes = $entityManager->getRepository(Espece::class)->findAll();
 
-        if (!$associations | !$especes ) {
+        if ( !$associations | !$especes ) {
             throw $this->createNotFoundException(
                 'We\'re missing something'
             );
         }
+
+        if ($request->isMethod('POST')) {
+            $dptSmall = $request->request->get('_dptSelectSmall');
+            $dptFull = $request->request->get('_dptSelectFull');
+            /* $species = $request->request->get('_espece'); */
+            $name = $request->request->get('_shelterNom');
+
+            $query = "SELECT * FROM Association";
+            $conditions = array();
+
+            if(! empty($dptSmall)) {
+            $conditions[] = "code_postal LIKE '$dptSmall%'";
+            }
+            if(! empty($dptFull)) {
+            $conditions[] = "code_postal LIKE '$dptFull%'";
+            }
+            /*
+            if(! empty($species)) {
+            $conditions[] = "pensionnaires.espece.nom LIKE '$species'";
+            }
+            */
+            if(! empty($name)) {
+            $conditions[] = "nom LIKE '$name'";
+            }
+
+            $sql = $query;
+            if (count($conditions) > 0) {
+            $sql .= " WHERE " . implode(' AND ', $conditions);
+            }
+
+            $rsm = new ResultSetMapping();
+            $rsm->addEntityResult(Association::class, 'a');
+            $rsm->addFieldResult('a', 'id', 'id');
+            $rsm->addFieldResult('a', 'nom', 'nom');
+            $rsm->addFieldResult('a', 'code_postal', 'code_postal');
+            $rsm->addJoinedEntityResult(Media::class , 'm', 'a', 'images_association');
+            $rsm->addFieldResult('m', 'images_association.id', 'id');
+            $rsm->addFieldResult('m', 'images_association.url', 'url');
+
+            $query = $entityManager->createNativeQuery($sql, $rsm);
+
+            $searchedShelters = $query->getResult();
+
+            return $this->render('association/associationSearchResults.html.twig', ['searchedShelters' => $searchedShelters, 'especes' => $especes]);
+    }
         
         return $this->render('association/associationList.html.twig', ['associations' => $associations, 'especes' => $especes]);
     }

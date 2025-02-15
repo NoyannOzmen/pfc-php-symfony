@@ -13,7 +13,7 @@ class AnimalTag
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'animal')]
+    #[ORM\ManyToOne(inversedBy: 'tags')]
     private ?Animal $animal = null;
 
     #[ORM\ManyToOne(inversedBy: 'tags')]

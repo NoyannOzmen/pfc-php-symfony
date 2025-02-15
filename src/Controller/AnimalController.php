@@ -7,25 +7,98 @@ use App\Entity\AnimalTag;
 use App\Entity\Espece;
 use App\Entity\Famille;
 use App\Entity\Demande;
+use App\Entity\Media;
+use App\Entity\Association;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 class AnimalController extends AbstractController
 {
-    #[Route('/animaux', name: 'animals', methods: ['GET'])]
-    public function displayAll(EntityManagerInterface $entityManager): Response
+    #[Route('/animaux', name: 'animals')]
+    public function displayAll(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $animals = $entityManager->getRepository(Animal::class)->findAll();
+        $animals = $entityManager->getRepository(Animal::class)->findBy(['statut' => "En refuge"]);
         $tags = $entityManager->getRepository(Tag::class)->findAll();
         $especes = $entityManager->getRepository(Espece::class)->findAll();
 
-        if (!$animals | !$tags | !$especes ) {
+        if ( !$animals | !$tags | !$especes ) {
             throw $this->createNotFoundException(
                 'We\'re missing something'
             );
+        }
+
+        if ($request->isMethod('POST')) {
+                $speciesSmall = $request->request->get('_especeDropdownSmall');
+                $speciesFull = $request->request->get('_especeDropdownFull');
+                $sexe = $request->request->get('_sexe');
+                $minAge = $request->request->get('_minAge');
+                $maxAge = $request->request->get('_maxAge');
+                /* $dpt = $request->request->get('_dpt'); */
+                /* $tag = $request->request->get('_tag'); */
+                $statut = "En refuge";
+
+                $query = "SELECT * FROM Animal";
+                $conditions = array();
+
+                $conditions[] = "statut='$statut'";
+
+                if(! empty($speciesSmall)) {
+                $conditions[] = "espece_id=$speciesSmall";
+                }
+                if(! empty($speciesFull)) {
+                $conditions[] = "espece_id=$speciesFull";
+                }
+                if(! empty($sexe)) {
+                $conditions[] = "sexe='$sexe'";
+                }
+                if(! empty($minAge && is_integer($minAge))) {
+                $conditions[] = "age>$minAge";
+                }
+                if(! empty($maxAge && is_integer($maxAge))) {
+                $conditions[] = "age<$maxAge";
+                }
+                /*
+                if(! empty($dpt)) {
+                $conditions[] = "association.code_postal LIKE '$dpt%'";
+                }
+                if(! empty($tag)) {
+                $conditions[] = "tag.nom NOT IN (SELECT $tag.nom FROM Tag)";
+                }
+                */
+
+                $sql = $query;
+                if (count($conditions) > 0) {
+                $sql .= " WHERE " . implode(' AND ', $conditions);
+                }
+
+                $rsm = new ResultSetMapping();
+                $rsm->addEntityResult(Animal::class, 'a');
+                $rsm->addFieldResult('a', 'id', 'id');
+                $rsm->addFieldResult('a', 'nom', 'nom');
+                $rsm->addFieldResult('a', 'sexe', 'sexe');
+                $rsm->addFieldResult('a', 'age', 'age');
+                $rsm->addFieldResult('a', 'race', 'race');
+                $rsm->addFieldResult('a', 'couleur', 'couleur');
+                $rsm->addFieldResult('a', 'description', 'description');
+                $rsm->addJoinedEntityResult(Espece::class , 'e', 'a', 'espece');
+                $rsm->addFieldResult('e', 'espece_id', 'id');
+                $rsm->addFieldResult('e', 'espece.nom', 'nom');
+                $rsm->addJoinedEntityResult(Media::class , 'm', 'a', 'images_animal');
+                $rsm->addFieldResult('m', 'images_animal.id', 'id');
+                $rsm->addFieldResult('m', 'images_animal.url', 'url');
+                $rsm->addJoinedEntityResult(Association::class , 'r', 'a', 'association');
+                $rsm->addFieldResult('r', 'association.id', 'id');
+                $rsm->addFieldResult('r', 'association.code_postal', 'code_postal');
+
+                $query = $entityManager->createNativeQuery($sql, $rsm);
+
+                $searchedAnimals = $query->getResult();
+
+                return $this->render('animaux/animalSearchResults.html.twig', ['searchedAnimals' => $searchedAnimals, 'tags' => $tags, 'especes' => $especes]);
         }
         
         return $this->render('animaux/animalList.html.twig', ['animals' => $animals, 'tags' => $tags, 'especes' => $especes]);

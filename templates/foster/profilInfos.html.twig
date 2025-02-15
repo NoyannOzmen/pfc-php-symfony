@@ -13,7 +13,7 @@
       <div class="mx-2 grow w-[90%] h-2 bg-accents1-dark rounded-t-lg"></div>
     </nav>
 
-    <div class="font-body bg-zoning rounded-lg shadow {# dark:bg-gray-800 #} mb-4">
+    <div class="font-body bg-zoning rounded-lg shadow mb-4">
 
       <section class="flex flex-wrap justify-center" id="dashboard-container">
         <h3 class="font-grands text-3xl text-center my-2 pt-5 w-full">Mon profil</h3>
@@ -26,7 +26,7 @@
 
         <form class="flex flex-col flex-wrap content-center justify-around text-texte w-full" action="{{ path('foster_profile_update') }}" method="POST">
           
-          <fieldset class="w-[60%] font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
+          <fieldset class="w-[60%] font-body rounded-lg shadow my-2 py-5">
             <legend class="text-center">Mes informations&nbsp;<span tabindex="0" class="material-symbols-outlined">edit</span></legend>
 
             <div class="mx-auto p-2"> 
@@ -37,13 +37,9 @@
               <label class="text-center w-full" for="nom">Nom</label>
               <input class="block w-full" type="text" id="nom" name="_nom" value="{{ famille.nom }}" disabled>
             </div>
-{#             <div class="mx-auto p-2">
-              <label class="text-center w-full" for="email">Email</label>
-              <input class="block w-full" type="email" id="email" name="email" value="{{ famille.accueillant.email }}" disabled>
-            </div> #}
           </fieldset>
       
-          <fieldset class="font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
+          <fieldset class="font-body rounded-lg shadow my-2 py-5">
             <legend class="text-center">Mon accueil&nbsp;<span tabindex="0" class="material-symbols-outlined">edit</span></legend>
 
               <div class="mx-auto p-2">
@@ -74,7 +70,7 @@
 
           <button id="validate" class="hidden w-[60%] mx-auto my-3 py-2 px-4 bg-accents1-light text-fond transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" type="submit">Valider les modifications</button>
         </form>
-        <form class="flex flex-col flex-wrap content-center justify-around text-texte" action="{{ path('foster_delete_account') }}" {# method="POST" #} onsubmit="return confirm('Voulez-vous vraiment supprimer votre profil ? Cette action est irréversible !')">
+        <form class="flex flex-col flex-wrap content-center justify-around text-texte" action="{{ path('foster_delete_account') }}" onsubmit="return confirm('Voulez-vous vraiment supprimer votre profil ? Cette action est irréversible !')">
           <button id="deleteAccount" class="w-[60%] mx-auto my-3 py-2 px-4 bg-accents2-dark text-fond transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" type="submit">Supprimer mon profil</button>
           <p class="text-center w-full">ATTENTION ! Cette suppression est définitive !</p>
         </form>
