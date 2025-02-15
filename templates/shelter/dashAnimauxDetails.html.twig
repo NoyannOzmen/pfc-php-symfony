@@ -29,7 +29,7 @@
       
       <section id="dahboard-container" class="flex justify-center flex-wrap gap-x-6 gap-y-4 p-6">       
         
-       {#  <!-- ANIMAL INFO #}
+       {# ANIMAL INFO #}
         <div class="w-60 md:w-auto">
           <h3 class="hidden md:inline font-grands text-3xl text-center my-2 pt-5 w-full">Fiche de suivi d'un animal</h3>
           
@@ -100,39 +100,39 @@
         </div>
               
         {# ACCUEILLANT INFOS#}
-{#         {% if animal.accueillant %}
+        {% if animal.famille %}
           <div class="w-60 md:w-auto">
             <h3 class="font-body font-bold mb-4">Famille d'accueil</h3>
             
             <div class="px-6 mb-3 md:grid-cols-2 md:grid md:max-w-96">
               <div class="mb-2 mt-2">
                 <p class="text-sm italic leading-3">Nom</p>
-                <p class="text-sm font-semibold">{{ animal.accueillant.nom }}</p>
+                <p class="text-sm font-semibold">{{ animal.famille.nom }}</p>
               </div>
               <div class="mb-2">
                 <p class="text-sm italic leading-3">Téléphone</p>
-                <p class="text-sm font-semibold">{{ animal.accueillant.telephone }}</p>
+                <p class="text-sm font-semibold">{{ animal.famille.telephone }}</p>
               </div>
               <div class="mb-2">
                 <p class="text-sm italic leading-3">e-mail</p>
-                <p class="text-sm font-semibold">{{ animal.accueillant.accueillant.email }}</p>
+                <p class="text-sm font-semibold">{{ animal.famille.utilisateur.email }}</p>
               </div>
               <div class="mb-2">
                 <p class="text-sm italic leading-4">Adresse</p>
-                <p class="text-sm font-semibold leading-3">{{ animal.accueillant.rue }}</p>
-                <p class="text-sm font-semibold ">{{ animal.accueillant.code_postal }}&nbsp;{{ animal.accueillant.commune  }}</p>
+                <p class="text-sm font-semibold leading-3">{{ animal.famille.rue }}</p>
+                <p class="text-sm font-semibold ">{{ animal.famille.code_postal }}&nbsp;{{ animal.famille.commune  }}</p>
               </div>
               <div class="mb-2">
                 <p class="text-sm italic leading-3">Pays</p>
-                <p class="text-sm font-semibold">{{ animal.accueillant.pays }}</p>
+                <p class="text-sm font-semibold">{{ animal.famille.pays }}</p>
               </div>
               <div>
                 <p class="text-sm italic leading-3">Hébergement</p>
-                <p class="text-sm font-semibold">{{ animal.accueillant.hebergement }}</p>
+                <p class="text-sm font-semibold">{{ animal.famille.hebergement }}</p>
               </div>
             </div>
           </div>
-        {% endif %} #}
+        {% endif %}
                 
         {# HISTORIQUE DES DEMANDES -->  #}
         {% if demandes %}  

@@ -18,7 +18,6 @@ class AssociationController extends AbstractController
     public function displayAll(Request $request, EntityManagerInterface $entityManager): Response
     {
         $associations = $entityManager->getRepository(Association::class)->findAll();
-        /* $associations = array(); */
         $especes = $entityManager->getRepository(Espece::class)->findAll();
 
         if ( !$associations | !$especes ) {
@@ -69,9 +68,7 @@ class AssociationController extends AbstractController
 
             $searchedShelters = $query->getResult();
 
-            $associations = $searchedShelters;
-
-            /* return $this->render('association/associationList.html.twig', ['associations' => $associations, 'especes' => $especes]); */
+            return $this->render('association/associationSearchResults.html.twig', ['searchedShelters' => $searchedShelters, 'especes' => $especes]);
     }
         
         return $this->render('association/associationList.html.twig', ['associations' => $associations, 'especes' => $especes]);

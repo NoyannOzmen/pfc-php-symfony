@@ -4,8 +4,8 @@
 <main class="justify-self-stretch flex-1">
   
   {# Menu de recherche #}
-  <div class="md:my-3 flex flex-wrap font-body w-full bg-zoning rounded-lg shadow {# dark:bg-gray-800 #} justify-around">
-    <form class="text-texte justify-around" {# action="/associations" #} method="POST">
+  <div class="md:my-3 flex flex-wrap font-body w-full bg-zoning rounded-lg shadow justify-around">
+    <form class="text-texte justify-around" method="POST">
       <div id="fullSearch" class="mx-2 col-span-3 items-center flex flex-wrap justify-around">
         <h3 class="font-grands text-2xl w-full my-2 text-center">Rechercher une association</h3>
         <select tabindex=0 class="col-span-3 text-xs block w-[50%] bg-fond" id="dpt-select-small" name="_dptSelectSmall">
@@ -271,7 +271,7 @@
 
       <div class="grid grid-cols-3 gap-3 m-3">       
         {% for association in associations %}       
-          <div class="bg-zoning rounded-lg shadow {# dark:bg-gray-800 #} flex flex-col">
+          <div class="bg-zoning rounded-lg shadow flex flex-col">
               
             <div class="relative md:w-full flex justify-center items-center">
               {% if association.images_association %}
@@ -283,9 +283,9 @@
 
             <div class="flex text-center flex-col">
               <div class="flex flex-wrap">
-                <h3 class="flex-auto text-xl md:text-3xl font-grands {# dark:text-gray-50 #}">{{ association.nom }}</h3>
+                <h3 class="flex-auto text-xl md:text-3xl font-grands">{{ association.nom }}</h3>
                 <hr>
-                <p class="flex-none w-full mt-2 text-xs md:text-xl font-medium text-gray-500 {# dark:text-gray-300 #}">Localisation : {{ association.code_postal }}&nbsp;{{ association.commune }}</p>
+                <p class="flex-none w-full mt-2 text-xs md:text-xl font-medium text-gray-500">Localisation : {{ association.code_postal }}&nbsp;{{ association.commune }}</p>
               </div>
               <div class="flex text-sm font-medium justify-center items-end">
                 <a class="my-2 bg-accents1-light text-fond w-[90%] transition ease-in duration-200 text-center text-xs md:text-2xl font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" href="{{ path('shelter_details', {'id': association.id }) }}">En savoir plus</a>

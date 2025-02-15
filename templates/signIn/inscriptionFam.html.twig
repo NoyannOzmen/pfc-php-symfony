@@ -4,9 +4,9 @@
 <main class="justify-self-stretch flex-1">
   <h2 class="font-grands text-3xl text-center my-2 pt-5">Création de votre compte</h2>
   
-  <div class="font-body mx-auto w-[80%] bg-zoning rounded-lg shadow {# dark:bg-gray-800 #} my-4 py-6">
+  <div class="font-body mx-auto w-[80%] bg-zoning rounded-lg shadow my-4 py-6">
 
-    <form class="flex flex-col flex-wrap content-center justify-around text-texte" {# action="{{ path('foster_signup') }}" #} method="POST">
+    <form class="flex flex-col flex-wrap content-center justify-around text-texte" method="POST">
       
       {% for message in app.flashes('notice') %}
         <div class="flash-notice font-grands font-base text-accents1 text-center">
@@ -14,7 +14,7 @@
         </div>
       {% endfor %}
 
-      <fieldset class="font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
+      <fieldset class="font-body rounded-lg shadow my-2 py-5">
         <legend class="font-bold text-lg font-grands text-center">Vos informations</legend>
         <div class="mx-auto p-2">        
           <label class="text-center w-full" for="firstname">Prénom</label>
@@ -34,7 +34,7 @@
         </div>
       </fieldset>
       
-      <fieldset class="font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
+      <fieldset class="font-body rounded-lg shadow my-2 py-5">
         
         <legend class="font-bold text-lg font-grands text-center">Votre capacité d'hébergement</legend>
         
@@ -78,7 +78,7 @@
         </div>
       </fieldset>
       
-      <fieldset class="font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
+      <fieldset class="font-body rounded-lg shadow my-2 py-5">
         <legend class="font-bold text-lg font-grands text-center">Mot de passe</legend>
         <div class="mx-auto p-2">
           <label class="text-center w-full" for="password">Créez votre mot de passe</label>

@@ -4,11 +4,11 @@
 <main class="justify-self-stretch flex-1">
   <h2 class="font-grands text-3xl text-center my-2 pt-5">Création de votre compte</h2>
   
-  <div class="font-body mx-auto w-[80%] bg-zoning rounded-lg shadow {# dark:bg-gray-800 #} my-4">
+  <div class="font-body mx-auto w-[80%] bg-zoning rounded-lg shadow my-4">
     
-    <form class="flex flex-col flex-wrap content-center justify-around text-texte" {# action="{{ path('shelter_signup') }}" #} method="POST">
+    <form class="flex flex-col flex-wrap content-center justify-around text-texte" method="POST">
       
-      <fieldset class="font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
+      <fieldset class="font-body rounded-lg shadow my-2 py-5">
         <legend class="font-bold text-lg font-grands text-center">Votre organisme</legend>
 
       {% for message in app.flashes('notice') %}
@@ -72,7 +72,7 @@
           <input class="block bg-fond w-full" type="text" id="siret" name="_siret" pattern="^(\d{14}|((\d{3}[ ]\d{3}[ ]\d{3})|\d{9})[ ]\d{5})$" placeholder="732829320 00074" required>
         </div>
         <div class="mx-auto p-2">
-         {#  <!-- Email #}
+         {# Email #}
           <label class="text-center w-full" for="email">Email</label>
           <input class="block bg-fond w-full" type="email" id="email" name="_email" placeholder="chacripan@domain-expansion.io" autocomplete="email" required>
         </div>
@@ -91,7 +91,7 @@
         </div>
       </fieldset>
 
-      <fieldset class="font-body rounded-lg shadow {# dark:bg-gray-800 #} my-2 py-5">
+      <fieldset class="font-body rounded-lg shadow my-2 py-5">
         <legend class="font-bold text-lg font-grands text-center">Mot de passe</legend>
         <div class="mx-auto p-2">
           <label class="text-center w-full" for="password">Créez votre mot de passe</label>

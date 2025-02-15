@@ -22,7 +22,6 @@ class AnimalController extends AbstractController
     public function displayAll(Request $request, EntityManagerInterface $entityManager): Response
     {
         $animals = $entityManager->getRepository(Animal::class)->findBy(['statut' => "En refuge"]);
-        /* $animals = array(); */
         $tags = $entityManager->getRepository(Tag::class)->findAll();
         $especes = $entityManager->getRepository(Espece::class)->findAll();
 
@@ -99,9 +98,7 @@ class AnimalController extends AbstractController
 
                 $searchedAnimals = $query->getResult();
 
-                $animals = $searchedAnimals;
-
-                /* return $this->render('animaux/animalList.html.twig', ['animals' => $animals, 'tags' => $tags, 'especes' => $especes]); */
+                return $this->render('animaux/animalSearchResults.html.twig', ['searchedAnimals' => $searchedAnimals, 'tags' => $tags, 'especes' => $especes]);
         }
         
         return $this->render('animaux/animalList.html.twig', ['animals' => $animals, 'tags' => $tags, 'especes' => $especes]);
