@@ -56,10 +56,10 @@ class AnimalController extends AbstractController
                 if(! empty($sexe)) {
                 $conditions[] = "sexe='$sexe'";
                 }
-                if(! empty($minAge)) {
+                if(! empty($minAge && is_integer($minAge))) {
                 $conditions[] = "age>$minAge";
                 }
-                if(! empty($maxAge)) {
+                if(! empty($maxAge && is_integer($maxAge))) {
                 $conditions[] = "age<$maxAge";
                 }
                 /*
