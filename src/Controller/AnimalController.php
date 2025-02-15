@@ -38,6 +38,8 @@ class AnimalController extends AbstractController
                 $sexe = $request->request->get('_sexe');
                 $minAge = $request->request->get('_minAge');
                 $maxAge = $request->request->get('_maxAge');
+                /* $dpt = $request->request->get('_dpt'); */
+                /* $tag = $request->request->get('_tag'); */
                 $statut = "En refuge";
 
                 $query = "SELECT * FROM Animal";
@@ -60,6 +62,14 @@ class AnimalController extends AbstractController
                 if(! empty($maxAge)) {
                 $conditions[] = "age<$maxAge";
                 }
+                /*
+                if(! empty($dpt)) {
+                $conditions[] = "association.code_postal LIKE '$dpt%'";
+                }
+                if(! empty($tag)) {
+                $conditions[] = "tag.nom NOT IN (SELECT $tag.nom FROM Tag)";
+                }
+                */
 
                 $sql = $query;
                 if (count($conditions) > 0) {

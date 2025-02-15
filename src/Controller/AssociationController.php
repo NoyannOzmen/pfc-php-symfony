@@ -30,7 +30,7 @@ class AssociationController extends AbstractController
         if ($request->isMethod('POST')) {
             $dptSmall = $request->request->get('_dptSelectSmall');
             $dptFull = $request->request->get('_dptSelectFull');
-            $species = $request->request->get('_espece');
+            /* $species = $request->request->get('_espece'); */
             $name = $request->request->get('_shelterNom');
 
             $query = "SELECT * FROM Association";
@@ -42,9 +42,11 @@ class AssociationController extends AbstractController
             if(! empty($dptFull)) {
             $conditions[] = "code_postal LIKE '$dptFull%'";
             }
-/*             if(! empty($species)) {
-            $conditions[] = "sexe='$species'";
-            } */
+            /*
+            if(! empty($species)) {
+            $conditions[] = "pensionnaires.espece.nom LIKE '$species'";
+            }
+            */
             if(! empty($name)) {
             $conditions[] = "nom LIKE '$name'";
             }
