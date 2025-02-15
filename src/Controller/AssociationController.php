@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Animal;
 use App\Entity\Association;
 use App\Entity\Espece;
+use App\Entity\Media;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +18,10 @@ class AssociationController extends AbstractController
     public function displayAll(Request $request, EntityManagerInterface $entityManager): Response
     {
         $associations = $entityManager->getRepository(Association::class)->findAll();
+        /* $associations = array(); */
         $especes = $entityManager->getRepository(Espece::class)->findAll();
 
-        if (!$associations | !$especes ) {
+        if ( !$associations | !$especes ) {
             throw $this->createNotFoundException(
                 'We\'re missing something'
             );
@@ -57,16 +59,17 @@ class AssociationController extends AbstractController
             $rsm->addFieldResult('a', 'id', 'id');
             $rsm->addFieldResult('a', 'nom', 'nom');
             $rsm->addFieldResult('a', 'code_postal', 'code_postal');
+            $rsm->addJoinedEntityResult(Media::class , 'm', 'a', 'images_association');
+            $rsm->addFieldResult('m', 'images_association.id', 'id');
+            $rsm->addFieldResult('m', 'images_association.url', 'url');
 
             $query = $entityManager->createNativeQuery($sql, $rsm);
-            dump($query);
 
             $searchedShelters = $query->getResult();
-            dump($searchedShelters);
 
             $associations = $searchedShelters;
 
-            return $this->render('association/associationList.html.twig', ['associations' => $associations, 'especes' => $especes]);
+            /* return $this->render('association/associationList.html.twig', ['associations' => $associations, 'especes' => $especes]); */
     }
         
         return $this->render('association/associationList.html.twig', ['associations' => $associations, 'especes' => $especes]);

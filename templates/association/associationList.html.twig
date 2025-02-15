@@ -268,17 +268,17 @@
   {% if associations is empty %}
     <h3 class="font-grands text-2xl w-full my-2 text-center">Aucun refuge ne correspond à votre recherche</h3>
   {% endif %}
-  
-  <div class="grid grid-cols-3 gap-3 m-3">       
-    {% for association in associations %}       
-      <div class="bg-zoning rounded-lg shadow {# dark:bg-gray-800 #} flex flex-col">
-          
+
+      <div class="grid grid-cols-3 gap-3 m-3">       
+        {% for association in associations %}       
+          <div class="bg-zoning rounded-lg shadow {# dark:bg-gray-800 #} flex flex-col">
+              
             <div class="relative md:w-full flex justify-center items-center">
-            {% if association.images_association %}
-                <img class="font-body rounded-lg" src={{ association.images_association[0].url }} class="rounded-lg"  alt="Logo de" . {{ association.nom }}>
-            {% else %}
-                <img class="font-body rounded-lg" src="/images/shelter_empty.webp" alt="Logo de" . {{ association.nom }} . "bientôt visible">
-            {% endif %}
+              {% if association.images_association %}
+                  <img class="font-body rounded-lg" src={{ association.images_association[0].url }} class="rounded-lg"  alt="Logo de" . {{ association.nom }}>
+              {% else %}
+                  <img class="font-body rounded-lg" src="/images/shelter_empty.webp" alt="Logo de" . {{ association.nom }} . "bientôt visible">
+              {% endif %}
             </div>
 
             <div class="flex text-center flex-col">
@@ -291,9 +291,9 @@
                 <a class="my-2 bg-accents1-light text-fond w-[90%] transition ease-in duration-200 text-center text-xs md:text-2xl font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg" href="{{ path('shelter_details', {'id': association.id }) }}">En savoir plus</a>
               </div>
             </div>
+          </div>
+        {% endfor %}
       </div>
-    {% endfor %}
-  </div>
           
 </main>
 

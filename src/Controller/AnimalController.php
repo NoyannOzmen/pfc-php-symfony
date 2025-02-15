@@ -7,6 +7,8 @@ use App\Entity\AnimalTag;
 use App\Entity\Espece;
 use App\Entity\Famille;
 use App\Entity\Demande;
+use App\Entity\Media;
+use App\Entity\Association;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,10 +22,11 @@ class AnimalController extends AbstractController
     public function displayAll(Request $request, EntityManagerInterface $entityManager): Response
     {
         $animals = $entityManager->getRepository(Animal::class)->findBy(['statut' => "En refuge"]);
+        /* $animals = array(); */
         $tags = $entityManager->getRepository(Tag::class)->findAll();
         $especes = $entityManager->getRepository(Espece::class)->findAll();
 
-        if (!$animals | !$tags | !$especes ) {
+        if ( !$animals | !$tags | !$especes ) {
             throw $this->createNotFoundException(
                 'We\'re missing something'
             );
@@ -74,16 +77,21 @@ class AnimalController extends AbstractController
                 $rsm->addFieldResult('a', 'description', 'description');
                 $rsm->addJoinedEntityResult(Espece::class , 'e', 'a', 'espece');
                 $rsm->addFieldResult('e', 'espece_id', 'id');
+                $rsm->addFieldResult('e', 'espece.nom', 'nom');
+                $rsm->addJoinedEntityResult(Media::class , 'm', 'a', 'images_animal');
+                $rsm->addFieldResult('m', 'images_animal.id', 'id');
+                $rsm->addFieldResult('m', 'images_animal.url', 'url');
+                $rsm->addJoinedEntityResult(Association::class , 'r', 'a', 'association');
+                $rsm->addFieldResult('r', 'association.id', 'id');
+                $rsm->addFieldResult('r', 'association.code_postal', 'code_postal');
 
                 $query = $entityManager->createNativeQuery($sql, $rsm);
-                dump($query);
 
                 $searchedAnimals = $query->getResult();
-                dump($searchedAnimals);
 
                 $animals = $searchedAnimals;
 
-                return $this->render('animaux/animalList.html.twig', ['animals' => $animals, 'tags' => $tags, 'especes' => $especes]);
+                /* return $this->render('animaux/animalList.html.twig', ['animals' => $animals, 'tags' => $tags, 'especes' => $especes]); */
         }
         
         return $this->render('animaux/animalList.html.twig', ['animals' => $animals, 'tags' => $tags, 'especes' => $especes]);
