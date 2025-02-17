@@ -1,6 +1,6 @@
 # Pet Foster Connect
 
-![Logo de PetFosterConnect](/public/images/logo.svg)
+<img src="./public/images/logo.svg" alt="Logo de PetFosterConnect" width="300"/>
 
 ## Disclaimer
 
@@ -37,13 +37,6 @@ Pour réaliser cette application, nous nous sommes servis de :
 | Doctrine| ORM |
 | Twig | Templating |
 | Tailwind | CSS |
-
-## Contributions
-
-- **Current Lead Dev & PHP Converter** :  Noyann Özmen
-- **Original Scrum Master** : Laura Martin-Wortham
-- **Original Git Master** : Maxime Lizere
-- **Original Product Owner** : Samuel Juminer
 
 ## Installation
 
