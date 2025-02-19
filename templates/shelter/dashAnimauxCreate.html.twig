@@ -93,15 +93,15 @@
                 
                 {% for tag in tags %}
                   <div class="flex gap-x-1.5 w-full"> 
-                    <input type="checkbox" id="tag_{{ tag.id }}" name="tag_{{ tag.id }}" value="{{ tag.id }}" class="leading-3 size-6"/>
-                    <label for="tag_{{ tag.id }}" class="block font-grands text-xs leading-3">{{ tag.nom }}</label>
+                    <input type="checkbox" id="tag_{{ tag.id }}" name="_tag" value="{{ tag.id }}" class="leading-3 size-6"/>
+                    <label for="_tag" class="block font-grands text-xs leading-3">{{ tag.nom }}</label>
                   </div>
                 {% endfor %}
                   
               </fieldset>
                 
               <div class="flex justify-center">
-                <button id="create-tag" class="self-center hover:bg-accents1-dark rounded-full hover:underline bg-accents1 text-center font-grands text-fond font-semibold text-base py-0.5 px-4">Créer un tag</button>
+                <button id="create-tag" type="button" class="self-center hover:bg-accents1-dark rounded-full hover:underline bg-accents1 text-center font-grands text-fond font-semibold text-base py-0.5 px-4">Créer un tag</button>
               </div>
             </div>
               
@@ -131,16 +131,16 @@
         close
       </span>
     </div>
-    <form id="create-tags-form" class="" method="post" action="/tags/create">
+    <form id="create-tags-form" method="POST" action="association/profil/create-tag">
       
       <div class="mb-2">
         <label for="tag-name" class="block text-texte font-grands font-bold text-base ">Nom du Tag</label>
-        <input class="w-56 rounded-md h-8 px-2 py-1 text-texte bg-fond " type="text" name="tag_name" id="tag-name" required>
+        <input class="w-56 rounded-md h-8 px-2 py-1 text-texte bg-fond " type="text" name="_tag_name" id="tag-name" required>
       </div>
       
       <div class="mb-4 ">
         <label for="tag-description" class="block text-texte font-grands font-bold text-base ">Description</label>
-        <textarea class="w-56 rounded-md px-2 py-1 text-texte bg-fond " name="tag_description" id="tag-description" rows="3" required></textarea>
+        <textarea class="w-56 rounded-md px-2 py-1 text-texte bg-fond " name="_tag_description" id="tag-description" rows="3" required></textarea>
       </div>
       
       <div>

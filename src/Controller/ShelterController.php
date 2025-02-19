@@ -9,6 +9,7 @@ use App\Entity\AnimalTag;
 use App\Entity\Media;
 use App\Entity\Demande;
 use App\Entity\Famille;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -164,6 +165,22 @@ class ShelterController extends AbstractController
         return $this->render('shelter/dashAnimauxSuiviAccueil.html.twig', ['association' => $association, 'animals' => $animals, 'tags' => $tags]);
     }
 
+    #[Route('association/profil/create-tag', name: 'shelter_create_tag')]
+    public function createTage(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $tagName = $request->request->get('_tag_name');
+        $tagDesc = $request->request->get('_tag_description');
+
+        $newTag = new Tag();
+        $newTag->setNom($tagName);
+        $newTag->setDescription($tagDesc);
+        $entityManager->persist($newTag);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('shelter_create_animal');
+    }
+
     #[Route('/association/profil/animaux/nouveau-profil', name: 'shelter_create_animal')]
     public function shelterCreateAnimal(EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -194,7 +211,12 @@ class ShelterController extends AbstractController
             $race = $request->request->get('_race_animal');
             $colour = $request->request->get('_couleur_animal');
             $description = $request->request->get('_description_animal');
-            $animal_tags = $request->request->get('_tags-animal');
+
+            $animalTags = $request->request->all('_tag');
+            foreach($animalTags as $tag) {
+                $tag = $entityManager->getRepository(Tag::class)->find($tag);
+                $tagsToAdd[] = $tag;
+            };
             
             $newAnimal = new Animal();
             $newAnimal->setNom($name);
@@ -207,11 +229,12 @@ class ShelterController extends AbstractController
             $newAnimal->setCouleur($colour);
             $newAnimal->setDescription($description);
             $newAnimal->setRefuge($association);
-/*             if (isset($animal_tags)) {
-                foreach ($animal_tags as $tag) {
+            if (isset($tagsToAdd)) {
+                foreach ($tagsToAdd as $tagToAdd) {
+                    $tag = $entityManager->getRepository(AnimalTag::class)->find($tagToAdd);
                     $newAnimal->addTag($tag);
                 }
-            } */
+            };
             $newAnimal->setStatut('En Refuge');
             $entityManager->persist($newAnimal);
 

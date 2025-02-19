@@ -38,13 +38,6 @@ Pour réaliser cette application, nous nous sommes servis de :
 | Twig | Templating |
 | Tailwind | CSS |
 
-## Contributions
-
-- **Current Lead Dev & PHP Converter** :  Noyann Özmen
-- **Original Scrum Master** : Laura Martin-Wortham
-- **Original Git Master** : Maxime Lizere
-- **Original Product Owner** : Samuel Juminer
-
 ## Installation
 
 Rien de plus simple :
