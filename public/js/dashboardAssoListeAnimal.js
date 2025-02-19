@@ -6,8 +6,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 
 function filterCards (searchFlag,animalCards) {
-    
-    //* On initialise et remplit un tableau avec les valeurs qui doivent filtrer 
+
     const speciesFilter = [];
     const speciesCheckboxes = document.querySelectorAll('.species-checkbox');
     speciesCheckboxes.forEach(species => {
