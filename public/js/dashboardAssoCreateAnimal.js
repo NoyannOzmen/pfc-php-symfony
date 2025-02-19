@@ -26,7 +26,7 @@ function handleAddTag() {
         
     });
 
-    addTagForm.addEventListener('submit', async (event)=>{
+    addTagForm.addEventListener('submit', (event)=>{
         event.preventDefault();
         const selectTagForm = document.getElementById('tags-animal'); 
         selectTagForm.innerHTML='';

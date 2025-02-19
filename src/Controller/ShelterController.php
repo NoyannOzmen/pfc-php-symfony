@@ -165,22 +165,6 @@ class ShelterController extends AbstractController
         return $this->render('shelter/dashAnimauxSuiviAccueil.html.twig', ['association' => $association, 'animals' => $animals, 'tags' => $tags]);
     }
 
-    #[Route('association/profil/create-tag', name: 'shelter_create_tag')]
-    public function createTage(EntityManagerInterface $entityManager, Request $request): Response
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $tagName = $request->request->get('_tag_name');
-        $tagDesc = $request->request->get('_tag_description');
-
-        $newTag = new Tag();
-        $newTag->setNom($tagName);
-        $newTag->setDescription($tagDesc);
-        $entityManager->persist($newTag);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('shelter_create_animal');
-    }
-
     #[Route('/association/profil/animaux/nouveau-profil', name: 'shelter_create_animal')]
     public function shelterCreateAnimal(EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -203,59 +187,68 @@ class ShelterController extends AbstractController
         }
 
         if ($request->isMethod('POST')) {
-            $name = $request->request->get('_nom_animal');
-            $sex = $request->request->get('_sexe_animal');
-            $age = $request->request->get('_age_animal');
-            $species = $request->request->get('_espece_animal');
-            $espece = $entityManager->getRepository(Espece::class)->find($species);
-            $race = $request->request->get('_race_animal');
-            $colour = $request->request->get('_couleur_animal');
-            $description = $request->request->get('_description_animal');
+            $animalForm = $request->request->get('create_animal');
+            $tagForm = $request->request->get('create_tag');
 
-            $animalTags = $request->request->all('_tag');
-            foreach($animalTags as $tag) {
-                $tag = $entityManager->getRepository(Tag::class)->find($tag);
-                $tagsToAdd[] = $tag;
-            };
-            
-            $newAnimal = new Animal();
-            $newAnimal->setNom($name);
-            $newAnimal->setSexe($sex);
-            $newAnimal->setAge($age);
-            $newAnimal->setEspece($espece);
-            if (isset($race)) {
-                $newAnimal->setRace($race);
-            }
-            $newAnimal->setCouleur($colour);
-            $newAnimal->setDescription($description);
-            $newAnimal->setRefuge($association);
-            if (isset($tagsToAdd)) {
-                foreach ($tagsToAdd as $tagToAdd) {
-                    $tag = $entityManager->getRepository(AnimalTag::class)->find($tagToAdd);
-                    $newAnimal->addTag($tag);
-                }
-            };
-            $newAnimal->setStatut('En Refuge');
-            $entityManager->persist($newAnimal);
+            if (isset($animalForm)) {
+                $name = $request->request->get('_nom_animal');
+                $sex = $request->request->get('_sexe_animal');
+                $age = $request->request->get('_age_animal');
+                $species = $request->request->get('_espece_animal');
+                $espece = $entityManager->getRepository(Espece::class)->find($species);
+                $race = $request->request->get('_race_animal');
+                $colour = $request->request->get('_couleur_animal');
+                $description = $request->request->get('_description_animal');
 
-            $animalId = $newAnimal->getId();
-            $newPhoto = new Media();
-            $newPhoto->setOrdre(1);
-            $newPhoto->setAnimalId($animalId);
-            $newPhoto->setUrl('/images/animal_empty.webp');
-            $entityManager->persist($newPhoto);
-
-/*             if (isset($animal_tags)) {
-                foreach ($animal_tags as $tag) {
-                    $newRelation = new AnimalTag();
-                    $newRelation->setAnimal($newAnimal);
-                    $newRelation->setTags($tag);
-                    $entityManager->persist($newRelation);
+                $animalTags = $request->request->all('_tag');
+                foreach($animalTags as $tag) {
+                    $tag = $entityManager->getRepository(Tag::class)->find($tag);
+                    $tagsToAdd[] = $tag;
                 };
-            } */
+                
+                $newAnimal = new Animal();
+                $newAnimal->setNom($name);
+                $newAnimal->setSexe($sex);
+                $newAnimal->setAge($age);
+                $newAnimal->setEspece($espece);
+                if (isset($race)) {
+                    $newAnimal->setRace($race);
+                }
+                $newAnimal->setCouleur($colour);
+                $newAnimal->setDescription($description);
+                $newAnimal->setRefuge($association);
+                if (isset($tagsToAdd)) {
+                    foreach ($tagsToAdd as $tagToAdd) {
+                        $tag = $entityManager->getRepository(AnimalTag::class)->find($tagToAdd);
+                        $newAnimal->addTag($tag);
+                    }
+                };
+                $newAnimal->setStatut('En Refuge');
+                $entityManager->persist($newAnimal);
 
+                $animalId = $newAnimal->getId();
+                $newPhoto = new Media();
+                $newPhoto->setOrdre(1);
+                $newPhoto->setAnimalId($animalId);
+                $newPhoto->setUrl('/images/animal_empty.webp');
+                $entityManager->persist($newPhoto);
+
+                $this->addFlash('notice', "Profil animal créé avec succès");
+            } 
+            
+            if (isset($tagForm)) {
+                $tagName = $request->request->get('_name_tag');
+                $tagDesc = $request->request->get('_desc_tag');
+
+                $newTag = new Tag();
+                $newTag->setNom($tagName);
+                $newTag->setDescription($tagDesc);
+                $entityManager->persist($newTag);
+
+                $this->addFlash('notice', "Nouveau tag créé avec succès");
+            }
             $entityManager->flush();
-            $this->addFlash('notice', "Profil animal créé avec succès");
+            return $this->redirectToRoute('shelter_create_animal');
         }
 
         return $this->render('shelter/dashAnimauxCreate.html.twig', ['association' => $association, 'especes' => $especes, 'tags' => $tags]);
