@@ -6,10 +6,6 @@
 
 Ce dépôt contient une conversion en PHP 8 du projet PetFosterConnect, tout en préservant ses fonctionnalités et son architecture MVC, grâce au framework Symfony.
 
-### Ce qu'il reste à implémenter (WIP)
-
-- Upload d'images (logo pour association, photo pour animaux)
-
 ## Présentation
 
 Pet Foster Connect permet de mettre en relation des familles d’accueil pour les animaux avec des associations de protection animale.
