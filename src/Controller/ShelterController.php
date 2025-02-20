@@ -147,7 +147,7 @@ class ShelterController extends AbstractController
                 $newLogo->setmediaFilename($newFilename);
                 $newLogo->setOrdre(1);
                 $newLogo->setAssociationId($association);
-                $newLogo->setUrl('/images/animaux' . $safeFilename);
+                $newLogo->setUrl('/images/animaux/' . $newFilename);
             }
 
             $entityManager->persist($newLogo);
@@ -307,8 +307,14 @@ class ShelterController extends AbstractController
         return $this->render('shelter/dashAnimauxCreate.html.twig', ['association' => $association, 'especes' => $especes, 'tags' => $tags]);
     }
 
-    #[Route('/association/profil/animaux/{animalId}', name: 'shelter_animal_details', methods: ['GET'], requirements: ['page' => '\d+'])]
-    public function shelterAnimalDetails(EntityManagerInterface $entityManager, int $animalId): Response
+    #[Route('/association/profil/animaux/{animalId}', name: 'shelter_animal_details', requirements: ['page' => '\d+'])]
+    public function shelterAnimalDetails(
+            Request $request,
+            EntityManagerInterface $entityManager,
+            SluggerInterface $slugger,
+            #[Autowire('%kernel.project_dir%/public/images/animaux')] string $mediaDirectory,
+            int $animalId
+        ): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
   
@@ -332,8 +338,46 @@ class ShelterController extends AbstractController
                 'No shelter found for id '.$id
             );
         }
-        
-        return $this->render('shelter/dashAnimauxDetails.html.twig', ['association' => $association, 'animal' => $animal, 'demandes' => $demandes, 'tags' => $tags]);
+    
+        $newPhoto = new Media();
+        $form = $this->createForm(MediaType::class, $newPhoto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $mediaFile */
+            $mediaFile = $form->get('media')->getData();
+
+            // this condition is needed because the 'media' field is not required
+            if ($mediaFile) {
+                $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                /* $newFilename = $safeFilename.'-'.uniqid().'.'.$mediaFile->guessExtension(); */
+                // Without uniqid, it looks like this
+                $newFilename = $safeFilename.'.'.$mediaFile->guessExtension();
+
+                // Move the file to the directory where medias are stored
+                try {
+                    $mediaFile->move($mediaDirectory, $newFilename);
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'mediaFilename' property to store the file name
+                // instead of its contents
+                $newPhoto->setmediaFilename($newFilename);
+                $newPhoto->setOrdre(1);
+                $newPhoto->setAnimalId($animal);
+                $newPhoto->setUrl('/images/animaux/' . $newFilename);
+            }
+
+            $entityManager->persist($newPhoto);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('shelter_animal_details', ['animalId' => $animalId ]);
+        }
+
+        return $this->render('shelter/dashAnimauxDetails.html.twig', ['form' => $form, 'association' => $association, 'animal' => $animal, 'demandes' => $demandes, 'tags' => $tags]);
     }
 
     #[Route('/association/profil/demandes', name: 'shelter_requests', methods: ['GET'])]
