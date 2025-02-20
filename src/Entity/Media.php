@@ -26,6 +26,21 @@ class Media
     #[ORM\ManyToOne(inversedBy: 'images_association')]
     private ?Association $association = null;
 
+    #[ORM\Column(type: 'string')]
+    private string $MediaFilename;
+
+    public function getMediaFilename(): string
+    {
+        return $this->MediaFilename;
+    }
+
+    public function setMediaFilename(string $MediaFilename): self
+    {
+        $this->MediaFilename = $MediaFilename;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
