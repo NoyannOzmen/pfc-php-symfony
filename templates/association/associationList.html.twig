@@ -7,7 +7,8 @@
   <div class="md:my-3 flex flex-wrap font-body w-full bg-zoning rounded-lg shadow justify-around">
     <form class="text-texte justify-around" method="POST">
       <div id="fullSearch" class="mx-2 col-span-3 items-center flex flex-wrap justify-around">
-        <h3 class="font-grands text-2xl w-full my-2 text-center">Rechercher une association</h3>
+        <h2 class="font-grands text-2xl w-full my-2 text-center">Rechercher une association</h2>
+        <label for="dpt-select-small">Par département</label>
         <select tabindex=0 class="col-span-3 text-xs block w-[50%] bg-fond" id="dpt-select-small" name="_dptSelectSmall">
           <option value="00" disabled selected hidden>--Choisissez un département--</option>
           <option value="01">01 - Ain</option> 
@@ -142,7 +143,7 @@
           <fieldset class="mx-auto p-2 my-2">
           
             {# Département #}
-            <label for="dpt-select">Département</label>
+            <label for="dpt-select-full">Département</label>
             <select tabindex=0 class="text-xs block bg-fond" id="dpt-select-full" name="_dptSelectFull">
               <option value="00" disabled selected hidden>--Choisissez un département--</option>
               <option value="01">01 - Ain</option> 
