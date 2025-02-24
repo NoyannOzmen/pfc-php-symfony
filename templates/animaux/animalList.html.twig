@@ -7,7 +7,8 @@
   <div class="md:my-3 flex flex-wrap font-body w-full bg-zoning rounded-lg shadow justify-around">
     <form class="text-texte justify-around" method="POST">
       <div id="fullSearch" class="mx-2 col-span-3 items-center flex flex-wrap justify-around">
-        <h3 class="font-grands text-2xl w-full my-2 text-center">Rechercher un animal</h3>
+        <h2 class="font-grands text-2xl w-full my-2 text-center">Rechercher un animal</h2>
+        <label for="espece-dropdown-small">Par espèce</label>
         <select tabindex=0 class="col-span-3 text-xs block w-[50%] bg-fond" id="espece-dropdown-small" name="_especeDropdownSmall">
           <option value="" disabled selected hidden>--Choisissez une espèce--</option>
           {% for espece in especes %}
@@ -27,7 +28,7 @@
           
           {# Choix de l'espèce #}
           <div class="my-2">
-            <label class=# for="espece-dropdown-full">Espèce</label>
+            <label for="espece-dropdown-full">Espèce</label>
             <select tabindex=0 class="text-xs block bg-fond" id="espece-dropdown-full" name="_especeDropdownFull">
               <option value="" disabled selected hidden>--Choisissez une espèce--</option>
               {% for espece in especes %}
