@@ -13,6 +13,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SignUpController extends AbstractController
 {
+  #[Route('/inscription', name: 'app_signup')]
+  public function displayAll()
+  {   
+    return $this->render('signIn/inscription.html.twig');
+  }
+
   #[Route('/famille/inscription', name: 'app_foster_signup')]
   public function fosterSignup(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, Request $request): Response
   {
