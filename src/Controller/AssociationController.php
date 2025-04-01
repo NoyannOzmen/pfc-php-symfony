@@ -29,7 +29,7 @@ class AssociationController extends AbstractController
         if ($request->isMethod('POST')) {
             $dptSmall = $request->request->get('_dptSelectSmall');
             $dptFull = $request->request->get('_dptSelectFull');
-            /* $species = $request->request->get('_espece'); */
+            /* $species = $request->request->all('_espece'); */
             $name = $request->request->get('_shelterNom');
 
             $query = "SELECT * FROM Association";
@@ -43,11 +43,14 @@ class AssociationController extends AbstractController
             }
             /*
             if(! empty($species)) {
-            $conditions[] = "pensionnaires.espece.nom LIKE '$species'";
+            $query .= " JOIN Animal AS pensionnaires ON association.id=pensionnaires.association_id JOIN Espece ON espece.id=pensionnaires.espece_id";
+                foreach($species as $spe) {
+                    $conditions[] = "pensionnaires.espece.nom LIKE '$spe'";
+                }
             }
             */
             if(! empty($name)) {
-            $conditions[] = "nom LIKE '$name'";
+            $conditions[] = "nom LIKE '%$name%'";
             }
 
             $sql = $query;
@@ -65,8 +68,10 @@ class AssociationController extends AbstractController
             $rsm->addFieldResult('m', 'images_association.url', 'url');
 
             $query = $entityManager->createNativeQuery($sql, $rsm);
+            dump($query);
 
             $searchedShelters = $query->getResult();
+            dump($searchedShelters);
 
             return $this->render('association/associationSearchResults.html.twig', ['searchedShelters' => $searchedShelters, 'especes' => $especes]);
     }

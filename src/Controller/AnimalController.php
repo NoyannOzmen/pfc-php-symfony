@@ -37,8 +37,8 @@ class AnimalController extends AbstractController
                 $sexe = $request->request->get('_sexe');
                 $minAge = $request->request->get('_minAge');
                 $maxAge = $request->request->get('_maxAge');
-                /* $dpt = $request->request->get('_dpt'); */
-                /* $tag = $request->request->get('_tag'); */
+                $dpt = $request->request->get('_dptSelect');
+                /* $tag = $request->request->all('_tag'); */
                 $statut = "En refuge";
 
                 $query = "SELECT * FROM Animal";
@@ -55,20 +55,19 @@ class AnimalController extends AbstractController
                 if(! empty($sexe)) {
                 $conditions[] = "sexe='$sexe'";
                 }
-                if(! empty($minAge && is_integer($minAge))) {
+                if(! empty($minAge)) {
                 $conditions[] = "age>$minAge";
                 }
-                if(! empty($maxAge && is_integer($maxAge))) {
+                if(! empty($maxAge)) {
                 $conditions[] = "age<$maxAge";
                 }
-                /*
                 if(! empty($dpt)) {
+                $query .= " JOIN Association ON association.id=association_id";
                 $conditions[] = "association.code_postal LIKE '$dpt%'";
                 }
-                if(! empty($tag)) {
-                $conditions[] = "tag.nom NOT IN (SELECT $tag.nom FROM Tag)";
-                }
-                */
+                /* if(! empty($tag)) {
+                $conditions[] = "tag.nom NOT IN ('$tag')";
+                } */
 
                 $sql = $query;
                 if (count($conditions) > 0) {
@@ -95,8 +94,10 @@ class AnimalController extends AbstractController
                 $rsm->addFieldResult('r', 'association.code_postal', 'code_postal');
 
                 $query = $entityManager->createNativeQuery($sql, $rsm);
+                dump($query);
 
                 $searchedAnimals = $query->getResult();
+                dump($searchedAnimals);
 
                 return $this->render('animaux/animalSearchResults.html.twig', ['searchedAnimals' => $searchedAnimals, 'tags' => $tags, 'especes' => $especes]);
         }
