@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Animal;
 use App\Entity\Famille;
 use App\Entity\Demande;
 use Doctrine\ORM\EntityManagerInterface;
@@ -114,18 +115,27 @@ class FosterController extends AbstractController
 
         $famille = $entityManager->getRepository(Famille::class)->find($id);
 
-/*         $requests = $entityManager->getRepository(Demande::class)->findBy(['famille' => $id]);
-        if (!$requests) {
-            $requests = [];
+        $requests = $entityManager->getRepository(Demande::class)->findBy(['famille' => $id]);
+        if ($requests) {
+            foreach ($requests as $request) {
+                $famille->removeDemande($request);
+              }
         }
-        foreach ($requests as $request) {
-          $famille->removeDemande($request);
-        } */
 
-        $entityManager->remove($famille);
-        $entityManager->remove($user);
-        $entityManager->flush();
-        
-        return $this->redirectToRoute('accueil');
+        $fostered = $entityManager->getRepository((Animal::class))->findBy(['famille' => $id]);
+
+        if (!$fostered) {
+            $entityManager->remove($famille);
+            $entityManager->remove($user);
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('accueil');
+        }
+
+        $this->addFlash('notice',
+        "Vous accueillez actuellement un ou plusieurs animaux enregistrés sur notre site.
+        Merci de contacter le refuge concerné avant de supprimer votre compte !"
+        );
+        return $this->redirectToRoute('foster_profile');
     }
 }
