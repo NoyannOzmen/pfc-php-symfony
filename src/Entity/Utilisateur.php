@@ -16,8 +16,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    /* #[ORM\Column(type: 'string', length: 180, unique: true)] */
+    #[ORM\Column(type: Types::TEXT, unique:true)]
     private ?string $email = null;
 
     #[ORM\Column(type: 'json')]
@@ -25,12 +24,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $password = null;
-
-    /* #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Association $refuge = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Famille $accueillant = null; */
 
     #[ORM\OneToOne(targetEntity: Association::class, mappedBy: 'utilisateur_id')]
     private Association|null $refuge = null;

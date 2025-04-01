@@ -58,10 +58,6 @@ class Association
     #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'association', fetch: "EAGER")]
     private Collection $pensionnaires;
 
-    /* #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Utilisateur $utilisateur = null; */
-
     #[ORM\OneToOne(targetEntity: Utilisateur::class, inversedBy: 'refuge')]
     #[ORM\JoinColumn(name: 'utilisateur_id', referencedColumnName: 'id')]
     private Utilisateur|null $utilisateur_id = null;

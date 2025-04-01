@@ -55,10 +55,6 @@ class Famille
     #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'famille')]
     private Collection $demandes;
 
-    /* #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Utilisateur $accueillant = null; */
-
     #[ORM\OneToOne(targetEntity: Utilisateur::class, inversedBy: 'accueillant')]
     #[ORM\JoinColumn(name: 'utilisateur_id', referencedColumnName: 'id')]
     private Utilisateur|null $utilisateur_id = null;

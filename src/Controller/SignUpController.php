@@ -14,7 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class SignUpController extends AbstractController
 {
   #[Route('/inscription', name: 'app_signup')]
-  public function displayAll()
+  public function SignupChoice()
   {   
     return $this->render('signIn/inscription.html.twig');
   }

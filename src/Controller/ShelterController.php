@@ -449,11 +449,21 @@ class ShelterController extends AbstractController
 
         $shelter = $entityManager->getRepository(Association::class)->find($id);
 
-        $entityManager->remove($shelter);
-        $entityManager->remove($user);
-        $entityManager->flush();
-        
-        return $this->redirectToRoute('accueil');
+        $sheltered = $entityManager->getRepository(Animal::class)->findBy(['association' => $id]);
+
+        if (!$sheltered) {
+            $entityManager->remove($shelter);
+            $entityManager->remove($user);
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('accueil');
+        }
+
+        $this->addFlash('notice',
+            'Vous accueillez actuellement un ou plusieurs animaux enregistrés sur notre site.
+            Merci de contacter un administrateur afin de supprimer votre compte !'
+        );
+        return $this->redirectToRoute('shelter_dashboard');
     }
 
     #[Route('/association/profil/demandes/{requestId}/deny', name: 'shelter_deny_request', methods: ['POST'], requirements: ['page' => '\d+'])]
