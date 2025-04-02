@@ -115,14 +115,12 @@ class AnimalController extends AbstractController
                 $rsm->addFieldResult('r', 'association.code_postal', 'code_postal');
 
                 $query = $entityManager->createNativeQuery($sql, $rsm);
-                dump($query);
 
                 $searchedAnimals = $query->getResult();
-                dump($searchedAnimals);
                 
                 return $this->render('animaux/animalList.html.twig', ['animals' => $searchedAnimals, 'tags' => $tags, 'especes' => $especes]);
                 //* Redirects to itself, hopefully keeping changes
-                //* return $this->redirectToRoute($request->attributes->get('_route'), ['animals' => $searchedAnimals, 'tags' => $tags, 'especes' => $especes]); */
+                //* return $this->redirectToRoute($request->attributes->get('_route'), ['animals' => $searchedAnimals, 'tags' => $tags, 'especes' => $especes]);
         }
         
         return $this->render('animaux/animalList.html.twig', ['animals' => $animals, 'tags' => $tags, 'especes' => $especes]);

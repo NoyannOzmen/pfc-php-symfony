@@ -77,10 +77,8 @@ class AssociationController extends AbstractController
             $rsm->addFieldResult('m', 'images_association.url', 'url');
 
             $query = $entityManager->createNativeQuery($sql, $rsm);
-            dump($query);
 
             $searchedShelters = $query->getResult();
-            dump($searchedShelters);
 
             return $this->render('association/associationSearchResults.html.twig', ['searchedShelters' => $searchedShelters, 'especes' => $especes]);
             //* Redirects to itself, hopefully keeping changes
