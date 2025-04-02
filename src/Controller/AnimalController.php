@@ -38,12 +38,27 @@ class AnimalController extends AbstractController
                 $minAge = $request->request->get('_minAge');
                 $maxAge = $request->request->get('_maxAge');
                 $dpt = $request->request->get('_dptSelect');
-                /* $tag = $request->request->all('_tag'); */
-                $statut = "En refuge";
+                
+                //* Workaround to get all checkboxes values
+                $list = $request->request->all();
+                unset(
+                    $list['_especeDropdownSmall'],
+                    $list['_especeDropdownFull'],
+                    $list['_sexe'],
+                    $list['_minAge'],
+                    $list['_maxAge'],
+                    $list['_dptSelect']
+                );
+                //* Queries repository to extract ID from selected species
+                $tag = $entityManager->getRepository(Tag::class)->findBy(['nom' => $list]);
+                foreach($tag as $tg) {
+                    $excludedTags[] = $tg->getId();
+                }
 
                 $query = "SELECT * FROM Animal";
                 $conditions = array();
 
+                $statut = "En refuge";
                 $conditions[] = "statut='$statut'";
 
                 if(! empty($speciesSmall)) {
@@ -56,18 +71,24 @@ class AnimalController extends AbstractController
                 $conditions[] = "sexe='$sexe'";
                 }
                 if(! empty($minAge)) {
-                $conditions[] = "age>$minAge";
+                $conditions[] = "age>=$minAge";
                 }
                 if(! empty($maxAge)) {
-                $conditions[] = "age<$maxAge";
+                $conditions[] = "age<=$maxAge";
                 }
+
+                //* Necessary for search to function properly
                 if(! empty($dpt)) {
-                $query .= " JOIN Association ON association.id=association_id";
+                $query .= " JOIN Association ON association.id=animal.association_id";
                 $conditions[] = "association.code_postal LIKE '$dpt%'";
                 }
-                /* if(! empty($tag)) {
-                $conditions[] = "tag.nom NOT IN ('$tag')";
-                } */
+
+                if(! empty($excludedTags)) {
+                //* Prevents array to string conversion error
+                $str = implode(',', $excludedTags);
+                $query .= " LEFT OUTER JOIN (Animal_Tag INNER JOIN Tag AS tags ON tags.id = Animal_Tag.tag_id) ON animal.id = Animal_Tag.animal_id";
+                $conditions[] = "tags.id NOT IN ($str)";
+                }
 
                 $sql = $query;
                 if (count($conditions) > 0) {
@@ -98,8 +119,10 @@ class AnimalController extends AbstractController
 
                 $searchedAnimals = $query->getResult();
                 dump($searchedAnimals);
-
-                return $this->render('animaux/animalSearchResults.html.twig', ['searchedAnimals' => $searchedAnimals, 'tags' => $tags, 'especes' => $especes]);
+                
+                return $this->render('animaux/animalList.html.twig', ['animals' => $searchedAnimals, 'tags' => $tags, 'especes' => $especes]);
+                //* Redirects to itself, hopefully keeping changes
+                //* return $this->redirectToRoute($request->attributes->get('_route'), ['animals' => $searchedAnimals, 'tags' => $tags, 'especes' => $especes]); */
         }
         
         return $this->render('animaux/animalList.html.twig', ['animals' => $animals, 'tags' => $tags, 'especes' => $especes]);

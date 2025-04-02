@@ -32,7 +32,7 @@
             {% for espece in especes %}
               <div>
                 <label class=# for="{{ espece.nom }}">{{ espece.nom }}</label>
-                <input class=# type="checkbox" name="_espece" value="{{ espece.nom }}"/>
+                <input class=# type="checkbox" name="_espece.{{espece.id}}" value="{{ espece.nom }}"/>
               </div>
             {% endfor %}
           </fieldset>

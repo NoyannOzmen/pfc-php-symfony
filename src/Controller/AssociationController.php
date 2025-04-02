@@ -29,28 +29,37 @@ class AssociationController extends AbstractController
         if ($request->isMethod('POST')) {
             $dptSmall = $request->request->get('_dptSelectSmall');
             $dptFull = $request->request->get('_dptSelectFull');
-            /* $species = $request->request->all('_espece'); */
             $name = $request->request->get('_shelterNom');
 
-            $query = "SELECT * FROM Association";
+            //* Workaround to get all checkboxes values
+            $list = $request->request->all();
+            unset($list['_dptSelectSmall'], $list['_dptSelectFull'], $list['_shelterNom']);
+            
+            //* Workaround to prevent double joint error on line 45
+            //* Queries repository to extract ID from selected species
+            $spe = $entityManager->getRepository(Espece::class)->findBy(['nom' => $list]);
+            foreach($spe as $sp) {
+                $searchedSpecies[] = $sp->getId();
+            }
+
+            $query = "SELECT * FROM Animal JOIN Association AS refuge ON animal.association_id=refuge.id";
             $conditions = array();
 
             if(! empty($dptSmall)) {
-            $conditions[] = "code_postal LIKE '$dptSmall%'";
+            $conditions[] = "refuge.code_postal LIKE '$dptSmall%'";
             }
             if(! empty($dptFull)) {
-            $conditions[] = "code_postal LIKE '$dptFull%'";
+            $conditions[] = "refuge.code_postal LIKE '$dptFull%'";
             }
-            /*
-            if(! empty($species)) {
-            $query .= " JOIN Animal AS pensionnaires ON association.id=pensionnaires.association_id JOIN Espece ON espece.id=pensionnaires.espece_id";
-                foreach($species as $spe) {
-                    $conditions[] = "pensionnaires.espece.nom LIKE '$spe'";
-                }
+            
+            if(! empty($searchedSpecies)) {
+            //* Prevents array to string conversion error
+            $str = implode(',', $searchedSpecies);
+            $conditions[] = "espece_id IN ($str)";
             }
-            */
+            
             if(! empty($name)) {
-            $conditions[] = "nom LIKE '%$name%'";
+            $conditions[] = "refuge.nom LIKE '%$name%'";
             }
 
             $sql = $query;
@@ -74,6 +83,8 @@ class AssociationController extends AbstractController
             dump($searchedShelters);
 
             return $this->render('association/associationSearchResults.html.twig', ['searchedShelters' => $searchedShelters, 'especes' => $especes]);
+            //* Redirects to itself, hopefully keeping changes
+            //* return $this->redirectToRoute($request->attributes->get('_route'), ['shelters' => $searchedShelters, 'especes' => $especes])
     }
         
         return $this->render('association/associationList.html.twig', ['associations' => $associations, 'especes' => $especes]);
