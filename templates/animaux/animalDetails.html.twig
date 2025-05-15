@@ -98,7 +98,7 @@
 	</section>
 
 	<section class="p-4 py-6 block">
-		<h2 class="font-grands text-3xl text-center my-2">Ils vous attendent de patte ferme !</h2>
+		<h2 class="font-grands text-3xl text-center my-2">Ils vous attendent aussi chez {{ animal.refuge.nom }} !</h2>
 
 		{# Carousel #}
 		<section id="animal-carousel"
@@ -111,7 +111,7 @@
 			<div class="h-auto w-auto md:flex rounded-lg p-4 md:my-6 md:gap-4 md:px-8">
 				{% for animal in shelter.pensionnaires %}
 					<div class="hidden carousel-img" >
-						<div class="flex bg-zoning rounded-lg shadow dark:bg-gray-800 flex-row md:flex-col p-4">
+						<div class="flex bg-fond rounded-lg shadow dark:bg-gray-800 flex-row md:flex-col p-4">
 							<div class="w-full md:w-full flex justify-center items-center">
 								 {% if animal.images_animal is empty %}
 									<img class="object-contain w-[80%] h-48 md:h-full rounded-lg" src="/images/animal_empty.webp"

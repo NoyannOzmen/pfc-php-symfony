@@ -49,7 +49,7 @@ class AnimalController extends AbstractController
                     $list['_maxAge'],
                     $list['_dptSelect']
                 );
-                //* Queries repository to extract ID from selected species
+                //* Queries repository to extract ID from selected tags
                 $tag = $entityManager->getRepository(Tag::class)->findBy(['nom' => $list]);
                 foreach($tag as $tg) {
                     $excludedTags[] = $tg->getId();
