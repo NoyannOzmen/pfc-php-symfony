@@ -28,5 +28,13 @@
         "postcss": "^8.5.2",
         "postcss-loader": "^8.1.1",
         "tailwindcss": "^4.0.6"
+    },
+    "overrides": {
+        "terser-webpack-plugin" : {
+            "serialize-javascript": ">=7.0.3"
+        },
+        "css-minimizer-webpack-plugin" : {
+            "serialize-javascript": ">=7.0.3"
+        }
     }
 }
